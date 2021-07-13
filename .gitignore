@@ -2,8 +2,10 @@
 logs
 *.log
 npm-debug.log*
+.DS_Store
 yarn-debug.log*
 yarn-error.log*
+/*.env
 
 # Runtime data
 pids
@@ -33,7 +35,8 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
+#node_modules folder should normally be ignored, but I'm including it for students who forget to run npm install
+# node_modules/
 jspm_packages/
 
 # TypeScript v1 declaration files
@@ -56,6 +59,7 @@ typings/
 
 # dotenv environment variables file
 .env
+.env.test
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -70,7 +74,10 @@ typings/
 .vuepress/dist
 
 # Serverless directories
-.serverless
+.serverless/
 
 # FuseBox cache
 .fusebox/
+
+# DynamoDB Local files
+.dynamodb/
