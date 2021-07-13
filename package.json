@@ -1,0 +1,19 @@
+{
+  "name": "no-bull-recipes",
+  "version": "1.0.0",
+  "description": "Recipe parser and database",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cc-smith/no-bull-recipes.git"
+  },
+  "author": "Chris Smith",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cc-smith/no-bull-recipes/issues"
+  },
+  "homepage": "https://github.com/cc-smith/no-bull-recipes#readme"
+}
