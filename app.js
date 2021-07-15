@@ -9,8 +9,23 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
+const cheerio = require('cheerio');
+const axios = require("axios")
+const app = express();
 
-
+//handlebars 
+const exphbs = require('express-handlebars')
+const path = require('path')
+const hbs = exphbs.create({
+  partialsDir: __dirname + '/views/partials'
+})
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static("public"));
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+app.set('views', __dirname + '/views');
+////////////////////////////////////////
 
 
 
@@ -24,11 +39,10 @@ client.connect(err => {
 });
 
 
-const app = express();
 
 
-app.use(express.static("public"));
-app.set('view engine', 'ejs');
+// app.use(express.static("public"));
+// app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -85,7 +99,7 @@ passport.use(new GoogleStrategy({
 ));
 
 app.get("/", function(req, res){
-  res.render("home");
+  res.render("login");
 });
 
 app.get("/auth/google",
@@ -186,15 +200,33 @@ app.post("/login", function(req, res){
 
 });
 
-// const PORT = process.env.PORT || 5000
-// app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
+async function fetchHTML(url) {
+  const { data } = await axios.get(url)
+  return cheerio.load(data)
+}
+
+app.post('/parse', async function(req, res) {
+  let url = req.body.url;
+  console.log("received URL:", url)
+  const $ = await fetchHTML(url)
+
+  let searchResults = $("body")
+  .find(".ingredients-item-name");
+
+  console.log(searchResults.text())
+  res.send(searchResults.text())
+  // console.log(`First h1 tag: ${$('h1').text()}`)
+  // res.send(`Site HTML: ${$.html()}\n\n`))
+  // res.send(`Title: ${$('h1').text()}`)
+})
+
 
 let port = process.env.PORT;
 if (port == null || port == "") {
   port = 3000;
 }
 
-console.log("********************", port)
+console.log("http://localhost:" + port)
 app.listen(port, function() {
   console.log("Server started on port 3000.");
 });
