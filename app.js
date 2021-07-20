@@ -11,6 +11,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
 const cheerio = require('cheerio');
 const axios = require("axios")
+const nodemailer = require("nodemailer");
 const app = express();
 
 //handlebars 
@@ -225,10 +226,7 @@ app.post('/parse', async function(req, res) {
   console.log("received URL:", url)
   const $ = await fetchHTML(url)
 
-  // let searchResults = $("body")
-  // .find(".ingredients-item-name");
   var data = {"title":[], "ingredients":[], "instructions":[]}
-
 
   var ingredSearchTerms = ["li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient']", "div[class*='Ingredient']"];
 
@@ -239,41 +237,51 @@ app.post('/parse', async function(req, res) {
   getSearchData("ingredients", data, ingredSearchTerms, $)
   getSearchData("instructions", data, instructSearchTerms, $)
   res.send(data)
-  // console.log("*********\n\n", data)
-  // for (var i = 0; i < ingredSearchTerms.length; i++) {
-  //   let term = ingredSearchTerms[i]
-  //   let ingredSearchResults = $("body").find(term);
-  //   console.log("Search Result:\n", ingredSearchResults)
-
-  
-  //   if (ingredSearchResults.length !== 0) {
-  //     ingredSearchResults.each(function (index, element) {
-  //       ingredList.push($(element).text());
-  //     });
-
-  //     res.send(ingredList)
-  //     break
-  //   }
-  // }
-
-  // searchTerms.forEach(function(term) {
-  //   console.log("Searching for:", term)
-  //   console.log($("body").find(term))
-  //   let searchResults = $("body").find(term);
-  //   if (searchResults.length > 0) {
-  //     return 
-  //   }
-  // }
-  //   )
-  // let searchResults = $("body")
-  //                     .find("span[class*='ingredient']");
-
-  // console.log(searchResults.text())
-  // res.send(searchResults.text())
-  // console.log(`First h1 tag: ${$('h1').text()}`)
-  // res.send(`Site HTML: ${$.html()}\n\n`))
-  // res.send(`Title: ${$('h1').text()}`)
 })
+
+
+app.post('/email', async function(req, res) {
+  let data = req.body;
+  console.log("received email data:\n", data)
+
+  let testAccount = await nodemailer.createTestAccount();
+
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: "smtp.ethereal.email",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: testAccount.user, // generated ethereal user
+      pass: testAccount.pass, // generated ethereal password
+    },
+  });
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: '"No Bull Recipes" <foo@example.com>', // sender address
+    to: "bar@example.com, baz@example.com", // list of receivers
+    subject: data["title"], // Subject line
+    text: data["ingredients"], // plain text body
+    html: "<b>Hello world?</b>", // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+  // Preview only available when sending through an Ethereal account
+  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+
+  res.send('Email Sent')
+})
+
+
+
+
+
+
+
 
 
 let port = process.env.PORT;
