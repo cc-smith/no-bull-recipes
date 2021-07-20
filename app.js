@@ -210,11 +210,40 @@ app.post('/parse', async function(req, res) {
   console.log("received URL:", url)
   const $ = await fetchHTML(url)
 
-  let searchResults = $("body")
-  .find(".ingredients-item-name");
+  // let searchResults = $("body")
+  // .find(".ingredients-item-name");
+  var searchTerms = ["span[class*='ingredient']", "ul"]
+  var ingredientsList = [];
 
-  console.log(searchResults.text())
-  res.send(searchResults.text())
+  var arrayLength = searchTerms.length;
+  for (var i = 0; i < arrayLength; i++) {
+    let term = searchTerms[i]
+    let searchResults = $("body").find(term);
+
+    if (searchResults !== "undefined") {
+      searchResults.each(function (index, element) {
+        ingredientsList.push($(element).text());
+      });
+
+      res.send(ingredientsList)
+      break
+    }
+  }
+
+  // searchTerms.forEach(function(term) {
+  //   console.log("Searching for:", term)
+  //   console.log($("body").find(term))
+  //   let searchResults = $("body").find(term);
+  //   if (searchResults.length > 0) {
+  //     return 
+  //   }
+  // }
+  //   )
+  // let searchResults = $("body")
+  //                     .find("span[class*='ingredient']");
+
+  // console.log(searchResults.text())
+  // res.send(searchResults.text())
   // console.log(`First h1 tag: ${$('h1').text()}`)
   // res.send(`Site HTML: ${$.html()}\n\n`))
   // res.send(`Title: ${$('h1').text()}`)
