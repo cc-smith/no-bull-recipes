@@ -200,6 +200,21 @@ app.post("/login", function(req, res){
 
 });
 
+function getSearchData(category, data, searchTerms, $) {
+  for (var i = 0; i < searchTerms.length; i++) {
+    let term = searchTerms[i]
+    let searchResults = $("body").find(term);
+
+    if (searchResults.length !== 0) {
+      searchResults.each(function (index, element) {
+        data[category].push($(element).text());
+      });
+      return data
+    }
+  }
+}
+
+
 async function fetchHTML(url) {
   const { data } = await axios.get(url)
   return cheerio.load(data)
@@ -212,23 +227,34 @@ app.post('/parse', async function(req, res) {
 
   // let searchResults = $("body")
   // .find(".ingredients-item-name");
-  var searchTerms = ["span[class*='ingredient']", "ul"]
-  var ingredientsList = [];
+  var data = {"title":[], "ingredients":[], "instructions":[]}
 
-  var arrayLength = searchTerms.length;
-  for (var i = 0; i < arrayLength; i++) {
-    let term = searchTerms[i]
-    let searchResults = $("body").find(term);
 
-    if (searchResults !== "undefined") {
-      searchResults.each(function (index, element) {
-        ingredientsList.push($(element).text());
-      });
+  var ingredSearchTerms = ["li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient']", "div[class*='Ingredient']"];
 
-      res.send(ingredientsList)
-      break
-    }
-  }
+  var instructSearchTerms = ["ol > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction']", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']"];
+  
+  data["title"] = [$('h1').text()]
+
+  getSearchData("ingredients", data, ingredSearchTerms, $)
+  getSearchData("instructions", data, instructSearchTerms, $)
+  res.send(data)
+  // console.log("*********\n\n", data)
+  // for (var i = 0; i < ingredSearchTerms.length; i++) {
+  //   let term = ingredSearchTerms[i]
+  //   let ingredSearchResults = $("body").find(term);
+  //   console.log("Search Result:\n", ingredSearchResults)
+
+  
+  //   if (ingredSearchResults.length !== 0) {
+  //     ingredSearchResults.each(function (index, element) {
+  //       ingredList.push($(element).text());
+  //     });
+
+  //     res.send(ingredList)
+  //     break
+  //   }
+  // }
 
   // searchTerms.forEach(function(term) {
   //   console.log("Searching for:", term)
