@@ -240,40 +240,83 @@ app.post('/parse', async function(req, res) {
 })
 
 
+
+
+
+
 app.post('/email', async function(req, res) {
   let data = req.body;
-  console.log("received email data:\n", data)
+  console.log(data)
 
-  let testAccount = await nodemailer.createTestAccount();
-
-  // create reusable transporter object using the default SMTP transport
-  let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false, // true for 465, false for other ports
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
     auth: {
-      user: testAccount.user, // generated ethereal user
-      pass: testAccount.pass, // generated ethereal password
+      user: 'NoBullRecipes.mailer@gmail.com',
+      pass: 'nobullshit'
     },
   });
+  console.log("1")
+   transport.use('compile', hbs({    
+        viewPath: '/views',
+        extName: '.handlebars'
+    }));
 
-  // send mail with defined transport object
-  let info = await transporter.sendMail({
-    from: '"No Bull Recipes" <foo@example.com>', // sender address
-    to: "bar@example.com, baz@example.com", // list of receivers
-    subject: data["title"], // Subject line
-    text: data["ingredients"], // plain text body
-    html: "<b>Hello world?</b>", // html body
-  });
 
-  console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+    console.log("2")
+    exports.sendEmail = function (from, to, subject, callback) {
 
-  // Preview only available when sending through an Ethereal account
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+        var email = {
+            from: 'NoBullRecipes.mailer@gmail.com',
+            to: 'ccsmith39@gmail.com',
+            subject: 'SUBJECT',
+            template: 'home',
+            context: {
+                name: 'YOUR NAME',
+                url: 'YOUR URL'
+            }
+        };
 
-  res.send('Email Sent')
+        transport.sendMail(email, function (err) {
+            if (err) {
+                return callback({ 'status': 'error', 'erro': err });
+            }
+            else {
+                return callback({ 'status': 'success' });
+            }
+        })
+    };
+
+
+
+
+
+
+
+
+  // var transporter = nodemailer.createTransport({
+  //   service: 'gmail',
+  //   auth: {
+  //     user: 'NoBullRecipes.mailer@gmail.com',
+  //     pass: 'nobullshit'
+  //   }
+  // });
+  
+  // var mailOptions = {
+  //   from: 'NoBullRecipes.mailer@gmail.com',
+  //   to: 'ccsmith39@gmail.com',
+  //   subject: `${req.body.title}`,
+  //   text: "test"
+  // };
+  
+  // transporter.sendMail(mailOptions, function(error, info){
+  //   if (error) {
+  //     console.log(error);
+  //   } else {
+  //     console.log('Email sent: ' + info.response);
+  //   }
+  // });
+
+  // res.send('Email Sent')
 })
 
 

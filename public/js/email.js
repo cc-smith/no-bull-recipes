@@ -1,12 +1,24 @@
 
 $('#btnEmailRecipe').click(function(e) {
     e.preventDefault();
-    var data = {"title":[], "host":[], "ingredients":[], "instructions":[]}
 
-    data["title"] = $("#title").text()
-    data["host"] = $("#host").text()
-    data["ingredients"] = $("#ingredients-list").text()
-    data["instructions"] = $("#instructions-list").text()
+    let title = $("#title").text()
+    let host = $("#host").text()
+    let ingredients = $("#ingredients-list").text()
+    let instructions = $("#instructions-list").text()
+
+    let data = JSON.stringify({
+        title, 
+        host, 
+        ingredients, 
+        instructions
+    })
+    // let data = {"title":[], "host":[], "ingredients":[], "instructions":[]}
+
+    // data["title"] = $("#title").text()
+    // data["host"] = $("#host").text()
+    // data["ingredients"] = $("#ingredients-list").text()
+    // data["instructions"] = $("#instructions-list").text()
 
     console.log("SENT DATA:\n", data)
 
@@ -27,6 +39,8 @@ $('#btnEmailRecipe').click(function(e) {
 
     // Send the request and wait for the response
     console.log(data)
-    xhttp.send(JSON.stringify(data));
+    // xhttp.send(JSON.stringify(data));
+    xhttp.send(data);
+
 
 })
