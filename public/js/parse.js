@@ -59,14 +59,33 @@ $('#btnGetRecipe').click(function(e) {
             }
 
             // Display the ingredients
+            var ul = $("<ul>")
+                .addClass("ul-ingredient")
             $.each(filteredIngredients, function(index, value) {
-                $('#ingredients-list').append("<ul>", value, "</ul>")
+                var span = $("<span>")
+                    .text(value)
+                    .addClass("span-ingredient")
+                var li = $("<li>")
+                    .addClass("li-ingredient")    
+                    .append(span)
+                ul.append(li)
               });
-            
+            $('#ingredients-list').append(ul)
+
             //Display the instructions
+            var ol = $("<ol>")
+                .addClass("ol-instruction")
             $.each(instructions, function(index, value) {
-                $('#instructions-list').append("<ol>", value, "</ol>")
+                var span = $("<span>")
+                    .text(value)
+                    .addClass("span-instruction")
+                var li = $("<li>")
+                    .addClass("li-instruction")    
+                    .append(span)
+                    ol.append(li)
             });
+            $('#instructions-list').append(ol)
+
 
         } else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
@@ -74,7 +93,7 @@ $('#btnGetRecipe').click(function(e) {
     }
 
     // Send the request and wait for the response
-    console.log(data)
+    // console.log(data)
     xhttp.send(JSON.stringify(data));
 
 })

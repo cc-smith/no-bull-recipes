@@ -44,6 +44,9 @@ client.connect(err => {
 
 // app.use(express.static("public"));
 // app.set('view engine', 'ejs');
+// var cookieParser = require('cookie-parser')
+// app.use(cookieParser())
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -51,7 +54,7 @@ app.use(bodyParser.urlencoded({
 app.use(session({
   secret: "Our little secret.",
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
 }));
 
 app.use(passport.initialize());
@@ -123,6 +126,7 @@ app.get("/register", function(req, res){
 });
 
 app.get("/secrets", function(req, res){
+  console.log(req.user)
   User.find({"secret": {$ne: null}}, function(err, foundUsers){
     if (err){
       console.log(err);
@@ -195,6 +199,8 @@ app.post("/login", function(req, res){
     } else {
       passport.authenticate("local")(req, res, function(){
         res.redirect("/secrets");
+        // res.render("secrets", {user});
+
       });
     }
   });
@@ -239,10 +245,50 @@ app.post('/parse', async function(req, res) {
   res.send(data)
 })
 
+const db = mongoose.connection
+const recipeSchema = new mongoose.Schema ({
+  user: String,
+  title: String,
+  host: String,
+  ingredients: Array,
+  instructions: Array
+});
+const Recipe = new mongoose.model("Recipe", recipeSchema);
+
+app.post("/save", function(req, res){
+  const user = new User({
+    username: req.body.username
+  });
+
+  const recipe = new Recipe({
+    user: user._id,
+    title: req.body.title,
+    host: req.body.host, 
+    ingredients: req.body.ingredients,
+    instructions: req.body.instructions
+  })
+
+  // recipe.save(function (err, recipe) {
+  //   if (err) return console.error(err);
+  // });
+  
+  res.send("Recipe Saved!")
+});
 
 
+app.get('/my-saved-recipes', async function(req, res) {
+  const user = new User({
+    username: req.body.username
+  });
+  console.log(user._id)
+  const recipes = await db.find({user: user._id}, 'host')
 
+  console.log("RECIPES:", recipes)
 
+  res.render('my-saved-recipes')
+  
+
+});
 
 app.post('/email', async function(req, res) {
   let data = req.body;
@@ -255,14 +301,12 @@ app.post('/email', async function(req, res) {
       pass: 'nobullshit'
     },
   });
-  console.log("1")
    transport.use('compile', hbs({    
         viewPath: '/views',
         extName: '.handlebars'
     }));
 
 
-    console.log("2")
     exports.sendEmail = function (from, to, subject, callback) {
 
         var email = {
