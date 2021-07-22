@@ -1,5 +1,6 @@
 $('#btnSaveRecipe').click(function(e) {
     e.preventDefault();
+    let user = $( "#username" ).text()
     let title = $("#title").text()
     let host = $("#host").text()
 
@@ -11,6 +12,7 @@ $('#btnSaveRecipe').click(function(e) {
     let instructions = $("#instructions-list").text()
 
     let data = JSON.stringify({
+        user,
         title, 
         host, 
         ingredients, 

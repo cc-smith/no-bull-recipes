@@ -1,3 +1,13 @@
 <body>
 <h1>My Recipes</h1>
+{{!-- {{#each recipes}} --}}
+<ul>
+    {{#each recipes}}
+    <li>
+        <button type="submit" class="btnSavedRecipe">{{this.host}}</button>
+    </li>
+    {{/each}}
+</ul>
 </body>
+
+<script src="../js/getSavedRecipe.js"></script>

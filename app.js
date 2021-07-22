@@ -126,16 +126,18 @@ app.get("/register", function(req, res){
 });
 
 app.get("/secrets", function(req, res){
-  console.log(req.user)
-  User.find({"secret": {$ne: null}}, function(err, foundUsers){
-    if (err){
-      console.log(err);
-    } else {
-      if (foundUsers) {
-        res.render("secrets", {usersWithSecrets: foundUsers});
-      }
-    }
-  });
+  let username = req.user.username
+  console.log("user:", username)
+  res.render("secrets", {username})
+  // User.find({"secret": {$ne: null}}, function(err, foundUsers){
+  //   if (err){
+  //     console.log(err);
+  //   } else {
+  //     if (foundUsers) {
+  //       res.render("secrets", {usersWithSecrets: foundUsers});
+  //     }
+  //   }
+  // });
 });
 
 app.get("/submit", function(req, res){
@@ -236,7 +238,7 @@ app.post('/parse', async function(req, res) {
 
   var ingredSearchTerms = ["li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient']", "div[class*='Ingredient']"];
 
-  var instructSearchTerms = ["ol > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction']", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']"];
+  var instructSearchTerms = ["li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction']", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']"];
   
   data["title"] = [$('h1').text()]
 
@@ -256,38 +258,31 @@ const recipeSchema = new mongoose.Schema ({
 const Recipe = new mongoose.model("Recipe", recipeSchema);
 
 app.post("/save", function(req, res){
-  const user = new User({
-    username: req.body.username
-  });
 
   const recipe = new Recipe({
-    user: user._id,
+    user: req.body.user,
     title: req.body.title,
     host: req.body.host, 
     ingredients: req.body.ingredients,
     instructions: req.body.instructions
   })
 
-  // recipe.save(function (err, recipe) {
-  //   if (err) return console.error(err);
-  // });
+  recipe.save(function (err, recipe) {
+    if (err) return console.error(err);
+  });
   
   res.send("Recipe Saved!")
 });
 
 
 app.get('/my-saved-recipes', async function(req, res) {
-  const user = new User({
-    username: req.body.username
-  });
-  console.log(user._id)
-  const recipes = await db.find({user: user._id}, 'host')
-
+  console.log("\n\n\n\n\n", req.user.username)
+  let username = req.user.username
+  const recipes = await Recipe.find({user: username}, 'host').lean()
+  JSON.stringify(recipes)
   console.log("RECIPES:", recipes)
 
-  res.render('my-saved-recipes')
-  
-
+  res.render('my-saved-recipes', {recipes})
 });
 
 app.post('/email', async function(req, res) {

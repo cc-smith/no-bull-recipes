@@ -1,14 +1,15 @@
-$('#btnMyRecipes').click(function(e) {
+$('.btnSavedRecipe').click(function(e) {
     e.preventDefault();
-    let username = $( "#username" ).text()
+
+    let link = $(this).text()
 
     let data = JSON.stringify({
-        username
+        link
     })
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/my-saved-recipes", true);
+    xhttp.open("POST", "/secrets", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
