@@ -4,10 +4,13 @@
 <ul>
     {{#each recipes}}
     <li>
-        <button type="submit" class="btnSavedRecipe">{{this.host}}</button>
+        <form action="secrets" method="post">
+            <input type="hidden" name="url" value="{{this.url}}">
+            <button class="btnSavedRecipe" type="submit">{{this.title}}</button>
+        </form>
     </li>
     {{/each}}
 </ul>
 </body>
 
-<script src="../js/getSavedRecipe.js"></script>
+{{!-- <script src="../js/getSavedRecipe.js"></script> --}}

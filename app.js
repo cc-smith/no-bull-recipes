@@ -126,9 +126,12 @@ app.get("/register", function(req, res){
 });
 
 app.get("/secrets", function(req, res){
-  let username = req.user.username
-  console.log("user:", username)
-  res.render("secrets", {username})
+
+  data = {
+    user: req.user.username
+  }
+
+  res.render("secrets", data)
   // User.find({"secret": {$ne: null}}, function(err, foundUsers){
   //   if (err){
   //     console.log(err);
@@ -140,11 +143,39 @@ app.get("/secrets", function(req, res){
   // });
 });
 
+
+app.use("/secrets", function(req, res){
+  let username = req.user.username
+  let url = req.body.url
+  console.log("user:", username)
+  console.log(url)
+
+  data = {
+          user: req.user.username,
+          url: req.body.url
+        }
+  res.render("secrets", data)
+
+  // window.location = "/secrets"
+  // User.find({"secret": {$ne: null}}, function(err, foundUsers){
+  //   if (err){
+  //     console.log(err);
+  //   } else {
+  //     if (foundUsers) {
+  //       res.render("secrets", {usersWithSecrets: foundUsers});
+  //     }
+  //   }
+  // });
+});
+
+
+
 app.get("/submit", function(req, res){
   if (req.isAuthenticated()){
     res.render("submit");
   } else {
     res.redirect("/login");
+
   }
 });
 
@@ -236,7 +267,7 @@ app.post('/parse', async function(req, res) {
 
   var data = {"title":[], "ingredients":[], "instructions":[]}
 
-  var ingredSearchTerms = ["li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient']", "div[class*='Ingredient']"];
+  var ingredSearchTerms = ["ul[class*='ingredient'] > li", "li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient']", "div[class*='Ingredient']"];
 
   var instructSearchTerms = ["li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction']", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']"];
   
@@ -252,6 +283,7 @@ const recipeSchema = new mongoose.Schema ({
   user: String,
   title: String,
   host: String,
+  url: String,
   ingredients: Array,
   instructions: Array
 });
@@ -263,6 +295,7 @@ app.post("/save", function(req, res){
     user: req.body.user,
     title: req.body.title,
     host: req.body.host, 
+    url: req.body.url,
     ingredients: req.body.ingredients,
     instructions: req.body.instructions
   })
@@ -271,16 +304,14 @@ app.post("/save", function(req, res){
     if (err) return console.error(err);
   });
   
-  res.send("Recipe Saved!")
+  res.send(req.body.title)
 });
 
 
 app.get('/my-saved-recipes', async function(req, res) {
-  console.log("\n\n\n\n\n", req.user.username)
   let username = req.user.username
-  const recipes = await Recipe.find({user: username}, 'host').lean()
+  const recipes = await Recipe.find({user: username}).lean()
   JSON.stringify(recipes)
-  console.log("RECIPES:", recipes)
 
   res.render('my-saved-recipes', {recipes})
 });

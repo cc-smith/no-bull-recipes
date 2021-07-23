@@ -1,6 +1,19 @@
 
 body {
-  background-color: #E8ECEF;
+  background-color: #1A1A1D;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.title-header {
+  margin: auto;
+  text-align: center;
+  padding-top: 20px;
+  color: #C3073F;
+  text-shadow: 2px 2px #6F2232;
+  letter-spacing: 15px;
+  font-size: 50px;
+  font-style: unset;
+  font-weight:800;
 }
 
 .centered {
