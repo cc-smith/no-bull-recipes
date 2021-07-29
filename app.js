@@ -147,12 +147,15 @@ app.get("/secrets", function(req, res){
 app.use("/secrets", function(req, res){
   let username = req.user.username
   let url = req.body.url
-  console.log("user:", username)
+  let recipeNotes = req.body.recipeNotes
+  console.log("\n\n\n\nuser:", username)
   console.log(url)
+  console.log(recipeNotes)
 
   data = {
           user: req.user.username,
-          url: req.body.url
+          url: req.body.url,
+          recipeNotes:req.body.recipeNotes
         }
   res.render("secrets", data)
 
@@ -269,7 +272,7 @@ app.post('/parse', async function(req, res) {
 
   var ingredSearchTerms = ["ul[class*='ingredient'] > li", "li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient']", "div[class*='Ingredient']"];
 
-  var instructSearchTerms = ["li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction']", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']"];
+  var instructSearchTerms = ["ol[class*='step'] > li", "ul[class*='Step'] > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction']", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']"];
   
   data["title"] = [$('h1').text()]
 
@@ -285,7 +288,8 @@ const recipeSchema = new mongoose.Schema ({
   host: String,
   url: String,
   ingredients: Array,
-  instructions: Array
+  instructions: Array,
+  recipeNotes: String
 });
 const Recipe = new mongoose.model("Recipe", recipeSchema);
 
@@ -297,7 +301,8 @@ app.post("/save", function(req, res){
     host: req.body.host, 
     url: req.body.url,
     ingredients: req.body.ingredients,
-    instructions: req.body.instructions
+    instructions: req.body.instructions,
+    recipeNotes: req.body.recipeNotes
   })
 
   recipe.save(function (err, recipe) {
@@ -315,6 +320,36 @@ app.get('/my-saved-recipes', async function(req, res) {
 
   res.render('my-saved-recipes', {recipes})
 });
+
+app.post("/delete-recipe", function(req, res){
+
+  // const recipe = new Recipe({
+  //   user: req.body.user,
+  //   title: req.body.title,
+  //   host: req.body.host, 
+  //   url: req.body.url,
+  //   ingredients: req.body.ingredients,
+  //   instructions: req.body.instructions
+  // })
+  const recipeID = req.body.id
+  console.log("Received id to delete:", recipeID)
+  Recipe.deleteOne({ _id: recipeID }, function (err) {
+    if (err) return console.error(err);
+  });
+  
+  res.send(recipeID)
+});
+
+
+app.get('/my-saved-recipes', async function(req, res) {
+  let username = req.user.username
+  const recipes = await Recipe.find({user: username}).lean()
+  JSON.stringify(recipes)
+
+  res.render('my-saved-recipes', {recipes})
+});
+
+
 
 app.post('/email', async function(req, res) {
   let data = req.body;

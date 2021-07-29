@@ -1,16 +1,38 @@
+$(function() {
+    $("#recipeNotes").focus(function(event) {
+    
+          // Erase text from inside textarea
+        $(this).text("");
+    
+          // Disable text erase
+        $(this).unbind(event);
+    });
+});
+
 $('#btnSaveRecipe').click(function(e) {
+    e.preventDefault();
+    // var techID = $(this).parent().parent().attr('id')
+    let recipeTitle = $('#title').text()
+    let recipeNotes = $('#recipeNotes-display').val()
+    console.log("NOTES:", recipeNotes)
+    // $('#myModal').data('id', techID).modal('show');
+    $('#saveModal').find('.modal-title').text(recipeTitle)
+    $('#saveModal').find('#recipeNotes').text(recipeNotes)
+    $('#saveModal').modal('show');
+});
+
+$('#btnSaveConfirm').click(function(e) {
     e.preventDefault();
     let user = $( "#username" ).text()
     let title = $("#title").text()
     let host = $("#host").text()
     let url = $("#recipeURL").val()
-
     var ingredients = [];
     $('#ingredients-list').each(function(){
         ingredients.push($(this).text());
     });
-
     let instructions = $("#instructions-list").text()
+    let recipeNotes = $("#recipeNotes").val()
 
     let data = JSON.stringify({
         user,
@@ -18,7 +40,8 @@ $('#btnSaveRecipe').click(function(e) {
         host, 
         url,
         ingredients, 
-        instructions
+        instructions,
+        recipeNotes
     })
     console.log("Data to Save:\n", data)
 
@@ -34,11 +57,9 @@ $('#btnSaveRecipe').click(function(e) {
             // let user = JSON.parse(xhttp.response)
             let recipeTitle = xhttp.response
             console.log("BEFORE:", recipeTitle)
-            // recipeTitle.replace(/\s+/g, " ")
-            // str.split(/\s/).join(' ')
+
             $.trim(recipeTitle.replace(/\r?\n|\r/, ''))
             console.log("AFTER:", recipeTitle)
-            alert(recipeTitle + "added to your cookbook!")
             
         } else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
@@ -48,6 +69,6 @@ $('#btnSaveRecipe').click(function(e) {
     // Send the request and wait for the response
 
     xhttp.send(data);
-
+    $('#saveModal').modal('hide');
 
 });

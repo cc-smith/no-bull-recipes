@@ -10,6 +10,7 @@ $('#btnGetRecipe').click(function(e) {
 
     // Get the recipe's URL, provided by the user
     let recipeUrl = $('#recipeURL').val()
+    let recipeNotes = $('#recipeNotes').val()
 
 
     data = {
@@ -29,7 +30,6 @@ $('#btnGetRecipe').click(function(e) {
             console.log("Returned data:\n", data);
             
             let title = data["title"]
-            console.log(title)
             let ingredients = data["ingredients"]
             let instructions = data["instructions"]
 
@@ -60,13 +60,13 @@ $('#btnGetRecipe').click(function(e) {
 
             // Display the ingredients
             var ul = $("<ul>")
-                .addClass("ul-ingredient")
+                .addClass("list-group list-group-flush")
             $.each(filteredIngredients, function(index, value) {
                 var span = $("<span>")
                     .text(value)
                     .addClass("span-ingredient")
                 var li = $("<li>")
-                    .addClass("li-ingredient")    
+                    .addClass("list-group-item")    
                     .append(span)
                 ul.append(li)
               });
@@ -74,13 +74,13 @@ $('#btnGetRecipe').click(function(e) {
 
             //Display the instructions
             var ol = $("<ol>")
-                .addClass("ol-instruction")
+                .addClass("list-group list-group-numbered")
             $.each(instructions, function(index, value) {
                 var span = $("<span>")
                     .text(value)
                     .addClass("span-instruction")
                 var li = $("<li>")
-                    .addClass("li-instruction")    
+                    .addClass("list-group-item")    
                     .append(span)
                     ol.append(li)
             });
@@ -97,3 +97,4 @@ $('#btnGetRecipe').click(function(e) {
     xhttp.send(JSON.stringify(data));
 
 })
+
