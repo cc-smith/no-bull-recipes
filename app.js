@@ -355,73 +355,37 @@ app.post('/email', async function(req, res) {
   let data = req.body;
   console.log(data)
 
+ 
   var transporter = nodemailer.createTransport({
-    service: "gmail",
+    service: 'gmail',
     auth: {
       user: 'NoBullRecipes.mailer@gmail.com',
       pass: 'nobullshit'
-    },
+    }
   });
-   transport.use('compile', hbs({    
-        viewPath: '/views',
-        extName: '.handlebars'
-    }));
-
-
-    exports.sendEmail = function (from, to, subject, callback) {
-
-        var email = {
-            from: 'NoBullRecipes.mailer@gmail.com',
-            to: 'ccsmith39@gmail.com',
-            subject: 'SUBJECT',
-            template: 'home',
-            context: {
-                name: 'YOUR NAME',
-                url: 'YOUR URL'
-            }
-        };
-
-        transport.sendMail(email, function (err) {
-            if (err) {
-                return callback({ 'status': 'error', 'erro': err });
-            }
-            else {
-                return callback({ 'status': 'success' });
-            }
-        })
-    };
-
-
-
-
-
-
-
-
-  // var transporter = nodemailer.createTransport({
-  //   service: 'gmail',
-  //   auth: {
-  //     user: 'NoBullRecipes.mailer@gmail.com',
-  //     pass: 'nobullshit'
-  //   }
-  // });
   
-  // var mailOptions = {
-  //   from: 'NoBullRecipes.mailer@gmail.com',
-  //   to: 'ccsmith39@gmail.com',
-  //   subject: `${req.body.title}`,
-  //   text: "test"
-  // };
-  
-  // transporter.sendMail(mailOptions, function(error, info){
-  //   if (error) {
-  //     console.log(error);
-  //   } else {
-  //     console.log('Email sent: ' + info.response);
-  //   }
-  // });
+  var mailOptions = {
+    from: 'NoBullRecipes.mailer@gmail.com',
+    to: `${req.body.email}`,
+    subject: `${req.body.title} | No Bull Recipes`,
+    html: `
+          <h1><a href=${req.body.url}>${req.body.title}</a></h1>
+          <h3>Ingredients:</h3>
+          ${req.body.ingredients}
+          <h3>Instructions:</h3>
+          ${req.body.instructions}
+          `
+  };
 
-  // res.send('Email Sent')
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+
+  res.send('Email Sent')
 })
 
 

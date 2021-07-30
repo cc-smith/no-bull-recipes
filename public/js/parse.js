@@ -1,4 +1,6 @@
-// https://www.inspiredtaste.net/37475/homemade-chicken-noodle-soup-recipe/
+$('#recipeURL').click(function(e) {
+    $( "#recipeURL" ).val("");
+});
 
 // Your javascript
 $('#btnGetRecipe').click(function(e) {
@@ -66,7 +68,7 @@ $('#btnGetRecipe').click(function(e) {
                     .text(value)
                     .addClass("span-ingredient")
                 var li = $("<li>")
-                    .addClass("list-group-item")    
+                    .addClass("list-group-item bg-transparent")    
                     .append(span)
                 ul.append(li)
               });
@@ -74,13 +76,13 @@ $('#btnGetRecipe').click(function(e) {
 
             //Display the instructions
             var ol = $("<ol>")
-                .addClass("list-group list-group-numbered")
+                .addClass("list-group list-group-numbered ")
             $.each(instructions, function(index, value) {
                 var span = $("<span>")
                     .text(value)
                     .addClass("span-instruction")
                 var li = $("<li>")
-                    .addClass("list-group-item")    
+                    .addClass("list-group-item bg-transparent")    
                     .append(span)
                     ol.append(li)
             });

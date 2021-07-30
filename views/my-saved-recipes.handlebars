@@ -1,9 +1,14 @@
 
 <body>
-<h1>My Recipes</h1>
-{{!-- {{#each recipes}} --}}
-
-<table class="table table-sm table-hover" id="savedRecipesTable">
+  <div class="container">
+    <div class="jumbotron">
+      <h1 class="title-header"><a href="/secrets">NO BULL RECIPES</a></h1>
+      <h2 hidden id='username'>{{user}}</h2>
+    </div>
+  </div>
+<br>
+<br>
+<table class="table table-sm" id="savedRecipesTable">
     <thead>
         <tr>
             <th scope="col">Recipe</th>
@@ -24,8 +29,8 @@
             <td>
                 {{this.host}}
             </td>
-            <td>
-               <a href="#myModal" class="delete" data-toggle="modal" data-name="{{this.title}}"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+            <td id="td-delete">
+               <a href="#myModal" class="delete" data-toggle="modal" data-name="{{this.title}}"><i class="material-icons md-24" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
             </td>
         </tr>
         {{/each}}

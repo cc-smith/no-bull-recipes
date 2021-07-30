@@ -4,18 +4,44 @@ body {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-.title-header {
+.title-header  {
   margin: auto;
   text-align: center;
   padding-top: 20px;
-  color: #C3073F;
-  text-shadow: 2px 2px #6F2232;
+  /* text-shadow: 3px 3px #4E4E50; */
   letter-spacing: 15px;
-  font-size: 50px;
+  font-size: 75px;
   font-style: unset;
   font-weight:800;
+  
 }
+.title-header a {
+	color: rgb(173, 6, 48);
+	text-decoration: none;
+}
+#recipe-title-host {
+	color: #c5c5c7;
+}
+span, ol {
+	color: #c5c5c7;
+}
+::before {
+	color: #c5c5c7;
+  }
+.list-group-item {
+	border-bottom: 1px solid #0091b569;
+  }
+  
+.material-icons.md-36 { font-size: 36px; }
 
+
+button{
+	border:0;
+	background:none;
+	color: rgb(173, 6, 48);
+	size
+	/*And other css to remove the default button property */    
+}
 .centered {
     padding-top: 200px;
     text-align: center;
@@ -31,11 +57,32 @@ body {
 
 #btnGetRecipe {
 	margin-left: 10px;
+	color: #c5c5c7;
+	border-radius: 5px;
+	border-color:#c5c5c7;
 }
 
 #recipeURL {
 	display: inline-block;
+	background-color: transparent;
+	color:#c5c5c7;
+	border-radius: 5px;
 }
+
+/* Links to saved recipes with table */
+.my-saved-recipes {
+	background: none!important;
+	color: #c5c5c7;
+	border-radius: 5px;
+	border-color:#c5c5c7;
+	padding: 0!important;
+	/*optional*/
+	font-family: Helvetica, Arial, sans-serif;
+	/*input has OS specific font-family*/
+	/* color: #069; */
+	text-decoration: none;
+	cursor: pointer;
+  }
 
 /* Links to saved recipes with table */
 .btnSavedRecipe {
@@ -45,9 +92,70 @@ body {
   /*optional*/
   font-family: Helvetica, Arial, sans-serif;
   /*input has OS specific font-family*/
-  color: #069;
+  color: #c5c5c7;
   text-decoration: none;
   cursor: pointer;
+}
+
+
+
+
+
+/* Table Styling */
+tbody tr {
+	color: #c5c5c7;
+	border-color: #0091b569;
+}
+
+thead tr th {
+	border-bottom: 1px solid #0091b569!important;
+  }
+table thead {
+	color: #c5c5c7;
+	font-size: 22px;
+}
+
+#savedRecipesTable {
+	white-space: nowrap;
+    width: auto;
+	margin-left: auto;
+  	margin-right: auto;
+}
+
+td {
+	padding-right: 60px !important;
+	vertical-align: middle;
+}
+
+#td-delete {
+	text-align: center;
+}
+
+.material-icons.md-24 { 
+	font-size: 24px;
+	color: rgb(173, 6, 48);
+	position: relative;
+	left: 85%;
+}
+/* Table Styling */
+
+.modal-content {
+	background-color: #1A1A1D;
+	color: white;
+	border: 1px solid black !important;
+	border-radius: 5px;
+  }
+
+.modal-body textarea  {
+	background-color: #1A1A1D;
+	color: #c5c5c7;
+}
+
+
+.modal-body input  {
+	background-color: transparent;
+	color:#c5c5c7;
+	border-radius: 5px;
 }
 
 .modal-confirm {		
@@ -95,18 +203,18 @@ body {
 	border-radius: 50%;
 	z-index: 9;
 	text-align: center;
-	border: 3px solid #f15e5e;
+	border: 3px solid rgb(173, 6, 48);
 }
 .modal-confirm .icon-box i {
-	color: #f15e5e;
+	color: rgb(173, 6, 48);
 	font-size: 46px;
 	display: inline-block;
 	margin-top: 13px;
 }
-.modal-confirm .btn, .modal-confirm .btn:active {
+/* .modal-confirm .btn, .modal-confirm .btn:active {
 	color: #fff;
 	border-radius: 4px;
-	background: #60c7c1;
+	background: #006B38FF;
 	text-decoration: none;
 	transition: all 0.4s;
 	line-height: normal;
@@ -115,8 +223,10 @@ body {
 	min-height: 40px;
 	border-radius: 3px;
 	margin: 0 5px;
-}
-.modal-confirm .btn-secondary {
+} */
+
+
+/* .modal-confirm .btn-secondary {
 	background: #c1c1c1;
 }
 .modal-confirm .btn-secondary:hover, .modal-confirm .btn-secondary:focus {
@@ -126,7 +236,7 @@ body {
 	background: #f15e5e;
 }
 .modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
-	background: #ee3535;
+	background: #ee3535; */
 }
 .trigger-btn {
 	display: inline-block;
@@ -134,12 +244,7 @@ body {
 }
 
 
-#savedRecipesTable {
-	white-space: nowrap;
-    width: 40%;
-	margin-left: auto;
-  	margin-right: auto;
-}
+
 
 textarea {
 	resize: none;
