@@ -3,7 +3,7 @@ $('#btnGetSimilarRecipes').click(function(e) {
     let title = $("#title").text()
     $("#recipeQuery").val(title)
     $('#similarRecipesModal').modal('show');
-    // $("#btnQueryConfirm").trigger('click'); 
+    $("#btnQueryConfirm").trigger('click'); 
 });
 
 
@@ -23,26 +23,26 @@ $('#btnQueryConfirm').click(function(e) {
     //         "Low-Carb"
     // }
 
-    // let response = [
-    //     "Banana Bread Recipe",
-    //     "Simple Banana Bread Recipe",
-    //     "Maple Banana Bread",
-    //     "Best Ever Banana Bread",
-    //     "Gluten Free Banana Bread"
-    // ]
-    // response.forEach(function (index, element) {
-    //     var row = $("<tr>") 
-    //     var td = $("<td>").text("Banana Bread") 
-    //     row.append(td)
-    //     $("#tbody-similarRecipes").append(row)
-
-
-    // });
+    let response = [
+        "Banana Bread Recipe",
+        "Simple Banana Bread Recipe",
+        "Maple Banana Bread",
+        "Best Ever Banana Bread",
+        "Gluten Free Banana Bread"
+    ]
+    response.forEach(function (index, element) {
+        var row = $("<tr>") 
+        var td1 = $("<td>").text("Banana Bread") 
+        var td2 = $("<td>").text("cooking.nyt.com") 
+        row.append(td1)
+        row.append(td2)
+        $("#tbody-similarRecipes").append(row)
+    });
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("GET", "https://flashtastic.herokuapp.com/api/?search=bread");
-    // xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.setHeader('Access-Control-Allow-Origin','*');
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
