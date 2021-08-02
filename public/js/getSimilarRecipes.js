@@ -42,7 +42,7 @@ $('#btnQueryConfirm').click(function(e) {
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("GET", "https://flashtastic.herokuapp.com/api/?search=bread");
-    xhttp.setHeader('Access-Control-Allow-Origin','*');
+    xhttp.setRequestHeader('Access-Control-Allow-Origin','*');
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
