@@ -41,7 +41,7 @@ $('#btnQueryConfirm').click(function(e) {
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "https://flashtastic.herokuapp.com/api/?search=bread", true);
+    xhttp.open("GET", "https://flashtastic.herokuapp.com/api/?search=bread");
     // xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
