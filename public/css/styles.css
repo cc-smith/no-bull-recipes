@@ -4,6 +4,53 @@ body {
   font-family: Helvetica, Arial, sans-serif;
 }
 
+
+
+/* Login Page */
+.form-control:focus {
+	background-color:transparent;
+	color:#c5c5c7;
+	border-color: rgb(173, 6, 48);
+	box-shadow: 0px 1px 1px rgba(138, 218, 11, 0.075) inset, 0px 0px 8px rgb(173, 6, 48);
+}
+.card {
+	background-color: transparent;
+	color:#c5c5c7;
+	border-radius: 5px;
+	border-color: #0091b569;
+	font-family: Helvetica, Arial, sans-serif;
+}
+.btn-login {
+	font-size: 0.9rem;
+	letter-spacing: 0.05rem;
+	padding: 0.75rem 1rem;
+  }
+
+/* .btn-primary {
+	background-color: #c5c5c7;
+} */
+  .btn-google {
+	color: white !important;
+	background-color: #ea4335;
+  }
+  
+  .btn-register {
+	color: white !important;
+	background-color: #3b5998;
+  }
+
+  .form-control {
+	display: inline-block;
+	background-color: transparent;
+	color:#c5c5c7;
+	border-radius: 5px;
+	border-color:#0091b569;
+	
+  }
+  
+
+
+
 .title-header  {
   margin: auto;
   text-align: center;
@@ -33,6 +80,7 @@ span, ol {
   }
   
 .material-icons.md-36 { font-size: 36px; }
+
 
 
 button{

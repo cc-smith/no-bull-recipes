@@ -3,6 +3,7 @@ $('#btnGetSimilarRecipes').click(function(e) {
     let title = $("#title").text()
     $("#recipeQuery").val(title)
     $('#similarRecipesModal').modal('show');
+    $("#tbody-similarRecipes").empty()
     $("#btnQueryConfirm").trigger('click'); 
 });
 
@@ -32,7 +33,7 @@ $('#btnQueryConfirm').click(function(e) {
     ]
     response.forEach(function (index, element) {
         var row = $("<tr>") 
-        var td1 = $("<td>").text("Banana Bread") 
+        var td1 = $("<td>").text("Chocolate Chip Cookies") 
         var td2 = $("<td>").text("cooking.nyt.com") 
         row.append(td1)
         row.append(td2)
