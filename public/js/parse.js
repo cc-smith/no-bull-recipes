@@ -27,26 +27,27 @@ $('#btnGetRecipe').click(function(e) {
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
+            console.log("Returned data:\n", xhttp.response);
+
             let data = JSON.parse(xhttp.response)
 
-            console.log("Returned data:\n", data);
             
             let title = data["title"]
-            let ingredients = data["ingredients"]
-            let instructions = data["instructions"]
+            let filteredIngredients = data["ingredients"][0]
+            let instructions = data["instructions"][0]
 
             // Filter out unwanted terms from the ingredient list
-            var termFilter = ["ingredients","deselect", "ingredient", "add", "view", "shopping", "list", "recipe"]
+            // var termFilter = ["ingredients","deselect", "ingredient", "add", "view", "shopping", "list", "recipe"]
 
-            let filteredIngredients = ingredients.filter(item => {
-                for (var f of termFilter) {
-                    if (item.toLowerCase().includes(f)) {
-                        return false;
-                    }
-                }
-                return true;
+            // let filteredIngredients = ingredients.filter(item => {
+            //     for (var f of termFilter) {
+            //         if (item.toLowerCase().includes(f)) {
+            //             return false;
+            //         }
+            //     }
+            //     return true;
 
-            }) 
+            // }) 
             
             // Display the title of the recipe
             $('#title').text(title[0])
@@ -59,6 +60,15 @@ $('#btnGetRecipe').click(function(e) {
             else{
                 $('#host').text(url)
             }
+
+
+
+            // $.each(function(index, elem) {
+            //     var $this = $(this);
+            //     console.log($.html($this));
+            //   });
+            // $('#ingredients-list').append(ingredients)
+
 
             // Display the ingredients
             var ul = $("<ul>")

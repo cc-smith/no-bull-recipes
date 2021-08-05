@@ -10,6 +10,7 @@ $(document).on('click', '.delete', function(e) {
     var recipeTitle = $(this).attr('data-name')
     console.log(recipeTitle)
     $('#myModal').find('.modal-body').text('Do you really want to delete your ' +  recipeTitle + ' recipe?')
+    $('#myModal').modal('show');
 });
 
 // Delete confirmation button within modal

@@ -245,43 +245,160 @@ app.post("/login", function(req, res){
 
 });
 
+
+
+
+// ********************** ORIGINAL **********************
 function getSearchData(category, data, searchTerms, $) {
+  var test = []
   for (var i = 0; i < searchTerms.length; i++) {
     let term = searchTerms[i]
     let searchResults = $("body").find(term);
-
     if (searchResults.length !== 0) {
       searchResults.each(function (index, element) {
-        data[category].push($(element).text());
+        test.push($(element).text());
       });
+      data[category].push(test);
       return data
     }
   }
 }
 
 
+function getScriptData(result, data) {
+  var instructions = []
+
+  if (typeof result.recipeIngredient !== 'undefined' && typeof result.recipeInstructions !== 'undefined') {
+    data["ingredients"].push(result.recipeIngredient)
+
+    for (var i = 0; i < result.recipeInstructions.length; i++) {
+      instructions.push(result.recipeInstructions[i].text);
+    }
+
+    data["instructions"].push(instructions)
+
+    return data
+
+  } else {
+
+  for (var i = 0; i < result.length; i++) {
+    let element = result[i]
+    
+    if (typeof element.recipeIngredient !== 'undefined' ) {
+      data["ingredients"].push(element.recipeIngredient)
+    };
+
+    if (typeof element.recipeInstructions !== 'undefined' ) {
+      for (var i = 0; i < element.recipeInstructions.length; i++) {
+        instructions.push(element.recipeInstructions[i].text);
+      }
+      data["instructions"].push(instructions)
+      return data
+    };
+  }
+  return data
+}
+}
+
+
 async function fetchHTML(url) {
   const { data } = await axios.get(url)
-  return cheerio.load(data)
+  return cheerio.load(data, {
+    xml: {
+      normalizeWhitespace: true,
+    }
+  });
 }
+
 
 app.post('/parse', async function(req, res) {
   let url = req.body.url;
   console.log("received URL:", url)
-  const $ = await fetchHTML(url)
 
   var data = {"title":[], "ingredients":[], "instructions":[]}
 
-  var ingredSearchTerms = ["ul[class*='ingredient'] > li", "li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient']", "div[class*='Ingredient']"];
-
-  var instructSearchTerms = ["ol[class*='step'] > li", "ul[class*='Step'] > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction']", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']"];
-  
+  var $ = await fetchHTML(url)
   data["title"] = [$('h1').text()]
 
-  getSearchData("ingredients", data, ingredSearchTerms, $)
-  getSearchData("instructions", data, instructSearchTerms, $)
-  res.send(data)
+  try {
+    var jsonScript = $('script[type="application/ld+json"]')
+    var jsonScriptParsed = JSON.parse(jsonScript[0].children[0].data)
+    if (typeof jsonScriptParsed['@graph'] !== 'undefined' ) { 
+      var result = jsonScriptParsed['@graph']
+    } else {
+      var result = jsonScriptParsed
+    }
+    getScriptData(result, data)
+    console.log("\n\nParsing Script Text\n\n")
+  }
+
+  catch {
+    var ingredSearchTerms = ["ul[class*='ingredient'] > li", "li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient'] > ul > li" , "div[class*='Ingredient']"];
+
+    var instructSearchTerms = ["ol[class*='step'] > li", "ul[class*='Step'] > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction'] > ol > li", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']", "div[class*='step'] > ol > li > p"];
+
+    getSearchData("ingredients", data, ingredSearchTerms, $)
+    getSearchData("instructions", data, instructSearchTerms, $)
+    console.log("\n\nParsing Body Text\n\n")
+  }
+
+  finally {
+    res.send(data)
+  }
 })
+// *************************************************************
+
+
+
+
+
+// function getSearchData(category, data, searchTerms, $) {
+//   for (var i = 0; i < searchTerms.length; i++) {
+//     let term = searchTerms[i]
+//     let searchResults = $("body").find(term);
+
+//     if (searchResults.length !== 0) {
+//       searchResults.each(function (index, element) {
+//         data[category].push($(element).html());
+//       });
+//       return data
+//     }
+//   }
+// }
+
+// async function fetchHTML(url) {
+//   const { data } = await axios.get(url)
+//   return cheerio.load(data)
+// }
+
+// app.post('/parse', async function(req, res) {
+//   let url = req.body.url;
+//   console.log("received URL:", url)
+//   const $ = await fetchHTML(url)
+
+//   var data = {"title":[], "ingredients":[], "instructions":[]}
+
+//   var ingredSearchTerms = ["ul[class*='ingredient']", "div[class*='ingredient']", "div[class*='Ingredient'"];
+
+//   var instructSearchTerms = ["ol[class*='step'] > li", "ul[class*='Step'] > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction']", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']"];
+  
+//   data["title"] = [$('h1').text()]
+
+//   getSearchData("ingredients", data, ingredSearchTerms, $)
+//   // getSearchData("instructions", data, instructSearchTerms, $)
+//   res.send(data)
+// })
+
+
+
+
+
+
+
+
+
+
+
 
 const db = mongoose.connection
 const recipeSchema = new mongoose.Schema ({

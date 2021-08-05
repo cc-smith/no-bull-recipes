@@ -105,12 +105,17 @@ button{
 
 #btnGetRecipe {
 	margin-left: 10px;
-	color: #c5c5c7;
+	/* color: #c5c5c7; */
 	border-radius: 5px;
-	border-color:#c5c5c7;
+	border-color:#0091b569;
 }
 
-#recipeURL {
+#btnQueryConfirm {
+	margin-left: 10px;
+	border-radius: 5px;
+}
+
+#recipeURL, #recipeQuery {
 	display: inline-block;
 	background-color: transparent;
 	color:#c5c5c7;
@@ -120,14 +125,12 @@ button{
 /* Links to saved recipes with table */
 .my-saved-recipes {
 	background: none!important;
-	color: #c5c5c7;
-	border-radius: 5px;
-	border-color:#c5c5c7;
+	border: none;
 	padding: 0!important;
 	/*optional*/
 	font-family: Helvetica, Arial, sans-serif;
 	/*input has OS specific font-family*/
-	/* color: #069; */
+	color: #c5c5c7;
 	text-decoration: none;
 	cursor: pointer;
   }
@@ -185,7 +188,41 @@ td {
 	position: relative;
 	left: 85%;
 }
+
+/* #similarRecipesTable, tr {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+#similarRecipesTable, tr {
+	white-space: nowrap;
+    width: auto;
+	margin-left: auto;
+  	margin-right: auto;
+	border-color: 1px solid black;
+	border-collapse: collapse;
+	border-radius: 5px;
+	text-align: left;
+	font-size: 0.9rem;
+	color:#c5c5c7
+}
+
+#similarRecipesTable tr th {
+	white-space: nowrap;
+    width: auto;
+	margin-left: auto;
+  	margin-right: auto;
+	border-color: transparent;
+	text-align: left;
+	vertical-align: bottom;
+} */
+.btnSimilarRecipe {
+	color:#c5c5c7
+
+}
+
 /* Table Styling */
+
+
 
 .modal-content {
 	background-color: #1A1A1D;
@@ -259,6 +296,13 @@ td {
 	display: inline-block;
 	margin-top: 13px;
 }
+.modal-body {
+    max-height: 40vh;
+    overflow-y: auto;
+}
+.modal-dialog {
+    overflow-y: initial !important
+}
 /* .modal-confirm .btn, .modal-confirm .btn:active {
 	color: #fff;
 	border-radius: 4px;
@@ -296,4 +340,26 @@ td {
 
 textarea {
 	resize: none;
+  }
+
+
+
+  /* width */
+::-webkit-scrollbar {
+	width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+	background: transparent;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+	background: #0091b569;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+	background: #0091b569;
   }
