@@ -266,13 +266,34 @@ function getSearchData(category, data, searchTerms, $) {
 
 
 function getScriptData(result, data) {
-  var instructions = []
-
+  // console.log("****** RESULT: *******", result.recipeInstructions)
   if (typeof result.recipeIngredient !== 'undefined' && typeof result.recipeInstructions !== 'undefined') {
     data["ingredients"].push(result.recipeIngredient)
-
-    for (var i = 0; i < result.recipeInstructions.length; i++) {
-      instructions.push(result.recipeInstructions[i].text);
+    var obj = result.recipeInstructions
+    function findList(obj) {
+      var parent = obj, notFound = true;
+      while (notFound) {
+          // if (obj.length) {
+          if (typeof obj !== "string") {
+              parent = obj
+              obj = obj[0]
+          } else {
+              notFound = false;
+          }
+      }
+      return parent;
+    }
+    
+    // var instructionsList = findList(obj)
+    var instructionsList = result.recipeInstructions
+    var instructions = []
+    for (var i = 0; i < instructionsList.length; i++) {
+      if (typeof instructionsList[i].text !== 'undefined') {
+        instructions.push(instructionsList[i].text);
+      }
+      else {
+        instructions.push(instructionsList[i]);
+      }
     }
 
     data["instructions"].push(instructions)
@@ -297,7 +318,7 @@ function getScriptData(result, data) {
     };
   }
   return data
-}
+  }
 }
 
 
@@ -311,41 +332,114 @@ async function fetchHTML(url) {
 }
 
 
+
+
+
+const ContextParser = require('jsonld-context-parser').ContextParser;
+
+const myParser = new ContextParser();
+
+
 app.post('/parse', async function(req, res) {
   let url = req.body.url;
   console.log("received URL:", url)
 
+  
   var data = {"title":[], "ingredients":[], "instructions":[]}
 
   var $ = await fetchHTML(url)
   data["title"] = [$('h1').text()]
 
+  var jsonScript = $('script[type="application/ld+json"]')
+  
   try {
-    var jsonScript = $('script[type="application/ld+json"]')
     var jsonScriptParsed = JSON.parse(jsonScript[0].children[0].data)
     if (typeof jsonScriptParsed['@graph'] !== 'undefined' ) { 
       var result = jsonScriptParsed['@graph']
     } else {
       var result = jsonScriptParsed
     }
-    getScriptData(result, data)
+    
+    function findResults(result) {
+      for (var i = 0; i < result.length; i++) {
+        var newResult = result[i]
+        if (typeof newResult.recipeIngredient !== 'undefined' && typeof newResult.recipeInstructions !== 'undefined') {
+          return newResult
+        }
+      };
+    };
+    console.log(result.length, result)
+    if (typeof result.length !== 'undefined') {
+      var test = findResults(result)
+    }
+    else {
+      var test = result
+    }
+    getScriptData(test, data)
     console.log("\n\nParsing Script Text\n\n")
   }
-
+  
   catch {
-    var ingredSearchTerms = ["ul[class*='ingredient'] > li", "li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient'] > ul > li" , "div[class*='Ingredient']"];
+ 
 
-    var instructSearchTerms = ["ol[class*='step'] > li", "ul[class*='Step'] > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction'] > ol > li", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']", "div[class*='step'] > ol > li > p"];
+    var ingredSearchTerms = ["span[class*='ingredient'] > p", "ul[class*='ingredient'] > li", "li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient'] > ul > li" , "div[class*='Ingredient']", "label[class*='ingredient']", "section > ul[class*='list'] > li"];
+
+    var instructSearchTerms = ["ol[class*='step'] > li", "ul[class*='Step'] > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction'] > ol > li", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']", "span[class*='direction'] > p", "ul[class*='direction']", "div[class*='direction'] > ol > li","li > p", "div[class*='instruction']", "div > ul > li > p"];
 
     getSearchData("ingredients", data, ingredSearchTerms, $)
     getSearchData("instructions", data, instructSearchTerms, $)
     console.log("\n\nParsing Body Text\n\n")
-  }
+}
+  
 
-  finally {
-    res.send(data)
-  }
-})
+  
+  res.send(data)
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+//   try {
+//     var jsonScript = $('script[type="application/ld+json"]')
+//     var jsonScriptParsed = JSON.parse(jsonScript[0].children[0].data)
+//     if (typeof jsonScriptParsed['@graph'] !== 'undefined' ) { 
+//       var result = jsonScriptParsed['@graph']
+//     } else {
+//       var result = jsonScriptParsed
+//     }
+
+//     if (typeof result.recipeIngredient === 'undefined' || typeof result.recipeInstructions  === 'undefined') {
+//       throw 'Cannot parse script - not enough information'
+//     }
+  
+//     console.log(test1, test2)
+//     getScriptData(result, data)
+//     console.log("\n\nParsing Script Text\n\n")
+//   }
+
+//   catch {
+//     var ingredSearchTerms = ["span[class*='ingredient'] > p", "ul[class*='ingredient'] > li", "li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient'] > ul > li" , "div[class*='Ingredient']"];
+
+//     var instructSearchTerms = ["ol[class*='step'] > li", "ul[class*='Step'] > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction'] > ol > li", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']", "span[class*='direction'] > p"];
+
+//     getSearchData("ingredients", data, ingredSearchTerms, $)
+//     getSearchData("instructions", data, instructSearchTerms, $)
+//     console.log("\n\nParsing Body Text\n\n")
+//   }
+
+//   finally {
+//     res.send(data)
+//   }
+// })
 // *************************************************************
 
 

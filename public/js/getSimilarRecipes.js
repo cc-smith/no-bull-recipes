@@ -2226,7 +2226,7 @@ $('#btnQueryConfirm').click(function(e) {
     e.preventDefault();
     let query = $("#recipeQuery").val()
     console.log("Query:", query)
-
+    $("#tbody-similarRecipes").empty()
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("GET", "https://flashtastic.herokuapp.com/api/?search=" + query);

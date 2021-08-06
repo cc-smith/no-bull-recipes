@@ -4,7 +4,26 @@ body {
   font-family: Helvetica, Arial, sans-serif;
 }
 
+.navbar-dark {
+	background-color: transparent;
+	color:blue;
+}
 
+#logout {
+	margin-right: 40px;
+}
+.nav-item {
+	margin-right: 5px;
+}
+#navbar-icon {
+	margin-right: 5px;
+}
+
+/* Navbar links */
+.navbar a {
+	display: flex;
+    align-items: center;
+  }
 
 /* Login Page */
 .form-control:focus {
@@ -125,8 +144,9 @@ button{
 /* Links to saved recipes with table */
 .my-saved-recipes {
 	background: none!important;
-	border: none;
-	padding: 0!important;
+	border: 1px;
+	border-color: white;
+	padding:5px 15px;
 	/*optional*/
 	font-family: Helvetica, Arial, sans-serif;
 	/*input has OS specific font-family*/
@@ -342,7 +362,9 @@ textarea {
 	resize: none;
   }
 
-
+#action-icons {
+	display: none;
+}
 
   /* width */
 ::-webkit-scrollbar {

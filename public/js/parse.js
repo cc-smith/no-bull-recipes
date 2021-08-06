@@ -5,7 +5,6 @@ $('#recipeURL').click(function(e) {
 // Your javascript
 $('#btnGetRecipe').click(function(e) {
     e.preventDefault();
-
     // Clear out the previous ingredients/steps
     $( "#ingredients-list" ).empty();
     $( "#instructions-list" ).empty();
@@ -33,21 +32,21 @@ $('#btnGetRecipe').click(function(e) {
 
             
             let title = data["title"]
-            let filteredIngredients = data["ingredients"][0]
+            let ingredients = data["ingredients"][0]
             let instructions = data["instructions"][0]
 
             // Filter out unwanted terms from the ingredient list
-            // var termFilter = ["ingredients","deselect", "ingredient", "add", "view", "shopping", "list", "recipe"]
+            var termFilter = ["ingredients","deselect", "ingredient", "add", "view", "shopping", "list", "recipe"]
 
-            // let filteredIngredients = ingredients.filter(item => {
-            //     for (var f of termFilter) {
-            //         if (item.toLowerCase().includes(f)) {
-            //             return false;
-            //         }
-            //     }
-            //     return true;
+            let filteredIngredients = ingredients.filter(item => {
+                for (var f of termFilter) {
+                    if (item.toLowerCase().includes(f)) {
+                        return false;
+                    }
+                }
+                return true;
 
-            // }) 
+            }) 
             
             // Display the title of the recipe
             $('#title').text(title[0])
@@ -97,7 +96,9 @@ $('#btnGetRecipe').click(function(e) {
                     ol.append(li)
             });
             $('#instructions-list').append(ol)
-
+            
+            // Show the email, save, and search buttons
+            $("#action-icons").show()
 
         } else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
