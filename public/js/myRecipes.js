@@ -8,7 +8,7 @@ $('#btnMyRecipes').click(function(e) {
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/my-saved-recipes", true);
+    xhttp.open("POST", "/my-cookbook", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve

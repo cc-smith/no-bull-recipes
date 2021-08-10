@@ -2,7 +2,7 @@
 <body>
   <div class="container">
     <div class="jumbotron">
-      <h1 class="title-header"><a href="/secrets">NO BULL RECIPES</a></h1>
+      <h1 class="title-header"><a href="/home">NO BULL RECIPES</a></h1>
       <h2 hidden id='username'>{{user}}</h2>
     </div>
   </div>
@@ -20,7 +20,7 @@
         {{#each recipes}}
         <tr id="{{this._id}}">
             <td>
-                <form action="secrets" method="post">
+                <form action="home" method="post">
                     <input type="hidden" name="url" value="{{this.url}}">
                     <input type="hidden" name="recipeNotes" value="{{this.recipeNotes}}">
                     <button class="btnSavedRecipe" type="submit">{{this.title}}</button>

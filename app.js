@@ -1,8 +1,6 @@
-//jshint esversion:6
 require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
-const ejs = require("ejs");
 const mongoose = require("mongoose");
 const session = require('express-session');
 const passport = require("passport");
@@ -15,7 +13,6 @@ const nodemailer = require("nodemailer");
 const cors = require("cors");
 const app = express();
 
-//handlebars 
 const exphbs = require('express-handlebars')
 const path = require('path')
 const hbs = exphbs.create({
@@ -28,9 +25,6 @@ app.use(express.static("public"));
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
-////////////////////////////////////////
-
-
 
 const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://ccsmith39:cacti6corn@cluster0.jdbpb.mongodb.net/noBullRecipes?retryWrites=true&w=majority";
@@ -92,7 +86,7 @@ passport.deserializeUser(function(id, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/secrets",
+    callbackURL: "http://localhost:3000/auth/google/home",
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
   },
   function(accessToken, refreshToken, profile, cb) {
@@ -112,11 +106,11 @@ app.get("/auth/google",
   passport.authenticate('google', { scope: ["profile"] })
 );
 
-app.get("/auth/google/secrets",
+app.get("/auth/google/home",
   passport.authenticate('google', { failureRedirect: "/login" }),
   function(req, res) {
-    // Successful authentication, redirect to secrets.
-    res.redirect("/secrets");
+    // Successful authentication, redirect to home.
+    res.redirect("/hom");
   });
 
 app.get("/login", function(req, res){
@@ -127,39 +121,25 @@ app.get("/register", function(req, res){
   res.render("register");
 });
 
-app.get("/secrets", function(req, res){
+app.get("/home", function(req, res){
   data = {
     user: req.user.username
   }
-  res.render("secrets", data)
+  res.render("home", data)
 });
 
 
-app.use("/secrets", function(req, res){
+app.use("/home", function(req, res){
   let username = req.user.username
   let url = req.body.url
   let recipeNotes = req.body.recipeNotes
-  console.log("\n\n\n\nuser:", username)
-  console.log(url)
-  console.log(recipeNotes)
 
   data = {
           user: req.user.username,
           url: req.body.url,
           recipeNotes:req.body.recipeNotes
         }
-  res.render("secrets", data)
-
-  // window.location = "/secrets"
-  // User.find({"secret": {$ne: null}}, function(err, foundUsers){
-  //   if (err){
-  //     console.log(err);
-  //   } else {
-  //     if (foundUsers) {
-  //       res.render("secrets", {usersWithSecrets: foundUsers});
-  //     }
-  //   }
-  // });
+  res.render("home", data)
 });
 
 
@@ -186,7 +166,7 @@ app.post("/submit", function(req, res){
       if (foundUser) {
         foundUser.secret = submittedSecret;
         foundUser.save(function(){
-          res.redirect("/secrets");
+          res.redirect("/home");
         });
       }
     }
@@ -199,14 +179,13 @@ app.get("/logout", function(req, res){
 });
 
 app.post("/register", function(req, res){
-
   User.register({username: req.body.username}, req.body.password, function(err, user){
     if (err) {
       console.log(err);
       res.redirect("/register");
     } else {
       passport.authenticate("local")(req, res, function(){
-        res.redirect("/secrets");
+        res.redirect("/home");
       });
     }
   });
@@ -214,7 +193,6 @@ app.post("/register", function(req, res){
 });
 
 app.post("/login", function(req, res){
-
   const user = new User({
     username: req.body.username,
     password: req.body.password
@@ -225,9 +203,7 @@ app.post("/login", function(req, res){
       console.log(err);
     } else {
       passport.authenticate("local")(req, res, function(){
-        res.redirect("/secrets");
-        // res.render("secrets", {user});
-
+        res.redirect("/home");
       });
     }
   });
@@ -417,14 +393,14 @@ app.post("/save", function(req, res){
 });
 
 
-app.get('/my-saved-recipes', async function(req, res) {
+app.get('/my-cookbook', async function(req, res) {
   let username = req.user.username
   // const recipes = await Recipe.find({user: username}).lean()
   const recipes = await Recipe.find({user: username}).sort({"title":1}).lean()
   JSON.stringify(recipes)
   console.log(recipes)
 
-  res.render('my-saved-recipes', {recipes})
+  res.render('my-cookbook', {recipes})
 });
 
 app.post("/delete-recipe", function(req, res){
@@ -439,12 +415,12 @@ app.post("/delete-recipe", function(req, res){
 });
 
 
-app.get('/my-saved-recipes', async function(req, res) {
+app.get('/my-cookbook', async function(req, res) {
   let username = req.user.username
   const recipes = await Recipe.find({user: username}).lean()
   JSON.stringify(recipes)
 
-  res.render('my-saved-recipes', {recipes})
+  res.render('my-cookbook', {recipes})
 });
 
 

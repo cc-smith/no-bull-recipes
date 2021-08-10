@@ -2276,7 +2276,7 @@ function getSimilarRecipes(response) {
         let label =  element.recipe.label
 
         // Create form
-        var form = $('<form>').attr('action', 'secrets')
+        var form = $('<form>').attr('action', 'home')
         form.attr('method', 'post')
 
         //Create inputs
