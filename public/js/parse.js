@@ -11,7 +11,7 @@ $('#btnGetRecipe').click(function(e) {
 
     // Get the recipe's URL, provided by the user
     let recipeUrl = $('#recipeURL').val()
-    let recipeNotes = $('#recipeNotes').val()
+    $('#recipe-notes').text();
 
 
     data = {

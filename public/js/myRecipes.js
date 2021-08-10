@@ -15,9 +15,6 @@ $('#btnMyRecipes').click(function(e) {
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             let recipes = xhttp.response
-            // console.log("Returned Recipes:", recipes)
-            // res.render('my-saved-recipes', recipes)
-            // xhttp.response.render('my-saved-recipes')
             
         } else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")

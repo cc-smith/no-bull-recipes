@@ -1,5 +1,5 @@
 $(function() {
-    $("#recipeNotes").focus(function(event) {
+    $("#modal-recipeNotes").focus(function(event) {
     
           // Erase text from inside textarea
         $(this).text("");
@@ -11,20 +11,25 @@ $(function() {
 
 $('#btnSaveRecipe').click(function(e) {
     e.preventDefault();
-    // var techID = $(this).parent().parent().attr('id')
-    let recipeTitle = $('#title').text()
-    let recipeNotes = $('#recipeNotes-display').val()
-    console.log("NOTES:", recipeNotes)
-    // $('#myModal').data('id', techID).modal('show');
-    $('#saveModal').find('.modal-title').text(recipeTitle)
-    $('#saveModal').find('#recipeNotes').text(recipeNotes)
+
+    let title = $('#title').text()
+    let recipeNotes = $('#recipeNotes-display').text()
+    let host = $("#host").text()
+
+    $('#saveModal').find('.modal-title').text('Save Recipe');
+    $('#saveModal').find('.recipe-title-source').text(title + ' | ' + host);
+    if (recipeNotes !== '') {
+        $('#modal-recipeNotes').text(recipeNotes)
+    } else {
+        $('#modal-recipeNotes').text('Enter recipe notes here...')
+    }
     $('#saveModal').modal('show');
 });
 
 $('#btnSaveConfirm').click(function(e) {
     e.preventDefault();
     let user = $( "#username" ).text()
-    let title = $("#title").text()
+    let title = $("#title").text().trim()
     let host = $("#host").text()
     let url = $("#recipeURL").val()
     var ingredients = [];
@@ -32,7 +37,14 @@ $('#btnSaveConfirm').click(function(e) {
         ingredients.push($(this).text());
     });
     let instructions = $("#instructions-list").text()
-    let recipeNotes = $("#recipeNotes").val()
+    
+    if ($("#modal-recipeNotes").val() == 'Enter recipe notes here...') {
+        var recipeNotes = ""
+    } else {
+        var recipeNotes = $("#modal-recipeNotes").val()
+        $('#recipeNotes-title').text('Recipe Notes:')
+        $('#recipeNotes-display').text(recipeNotes)
+    };
 
     let data = JSON.stringify({
         user,
@@ -43,8 +55,6 @@ $('#btnSaveConfirm').click(function(e) {
         instructions,
         recipeNotes
     })
-    console.log("Data to Save:\n", data)
-
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -54,20 +64,14 @@ $('#btnSaveConfirm').click(function(e) {
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            // let user = JSON.parse(xhttp.response)
-            let recipeTitle = xhttp.response
-            console.log("BEFORE:", recipeTitle)
+            console.log("Recipe Saved!\n" + xhttp.response)
 
-            $.trim(recipeTitle.replace(/\r?\n|\r/, ''))
-            console.log("AFTER:", recipeTitle)
-            
         } else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
         }
     }
 
     // Send the request and wait for the response
-
     xhttp.send(data);
     $('#saveModal').modal('hide');
 

@@ -105,7 +105,7 @@ passport.use(new GoogleStrategy({
 ));
 
 app.get("/", function(req, res){
-  res.render("login");
+  res.render("login", {layout: 'main-login'});
 });
 
 app.get("/auth/google",
@@ -120,7 +120,7 @@ app.get("/auth/google/secrets",
   });
 
 app.get("/login", function(req, res){
-  res.render("login");
+  res.render("login", {layout: 'main-login'});
 });
 
 app.get("/register", function(req, res){
@@ -128,21 +128,10 @@ app.get("/register", function(req, res){
 });
 
 app.get("/secrets", function(req, res){
-
   data = {
     user: req.user.username
   }
-
   res.render("secrets", data)
-  // User.find({"secret": {$ne: null}}, function(err, foundUsers){
-  //   if (err){
-  //     console.log(err);
-  //   } else {
-  //     if (foundUsers) {
-  //       res.render("secrets", {usersWithSecrets: foundUsers});
-  //     }
-  //   }
-  // });
 });
 
 
@@ -179,7 +168,7 @@ app.get("/submit", function(req, res){
   if (req.isAuthenticated()){
     res.render("submit");
   } else {
-    res.redirect("/login");
+    res.redirect("/login", {layout: 'main-login'});
 
   }
 });
@@ -266,14 +255,12 @@ function getSearchData(category, data, searchTerms, $) {
 
 
 function getScriptData(result, data) {
-  // console.log("****** RESULT: *******", result.recipeInstructions)
   if (typeof result.recipeIngredient !== 'undefined' && typeof result.recipeInstructions !== 'undefined') {
     data["ingredients"].push(result.recipeIngredient)
     var obj = result.recipeInstructions
     function findList(obj) {
       var parent = obj, notFound = true;
       while (notFound) {
-          // if (obj.length) {
           if (typeof obj !== "string") {
               parent = obj
               obj = obj[0]
@@ -381,7 +368,7 @@ app.post('/parse', async function(req, res) {
   
   catch {
  
-
+    // List of search terms to pass to the filter function
     var ingredSearchTerms = ["span[class*='ingredient'] > p", "ul[class*='ingredient'] > li", "li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient'] > ul > li" , "div[class*='Ingredient']", "label[class*='ingredient']", "section > ul[class*='list'] > li"];
 
     var instructSearchTerms = ["ol[class*='step'] > li", "ul[class*='Step'] > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction'] > ol > li", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']", "span[class*='direction'] > p", "ul[class*='direction']", "div[class*='direction'] > ol > li","li > p", "div[class*='instruction']", "div > ul > li > p"];
@@ -395,102 +382,6 @@ app.post('/parse', async function(req, res) {
   
   res.send(data)
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-//   try {
-//     var jsonScript = $('script[type="application/ld+json"]')
-//     var jsonScriptParsed = JSON.parse(jsonScript[0].children[0].data)
-//     if (typeof jsonScriptParsed['@graph'] !== 'undefined' ) { 
-//       var result = jsonScriptParsed['@graph']
-//     } else {
-//       var result = jsonScriptParsed
-//     }
-
-//     if (typeof result.recipeIngredient === 'undefined' || typeof result.recipeInstructions  === 'undefined') {
-//       throw 'Cannot parse script - not enough information'
-//     }
-  
-//     console.log(test1, test2)
-//     getScriptData(result, data)
-//     console.log("\n\nParsing Script Text\n\n")
-//   }
-
-//   catch {
-//     var ingredSearchTerms = ["span[class*='ingredient'] > p", "ul[class*='ingredient'] > li", "li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient'] > ul > li" , "div[class*='Ingredient']"];
-
-//     var instructSearchTerms = ["ol[class*='step'] > li", "ul[class*='Step'] > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction'] > ol > li", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']", "span[class*='direction'] > p"];
-
-//     getSearchData("ingredients", data, ingredSearchTerms, $)
-//     getSearchData("instructions", data, instructSearchTerms, $)
-//     console.log("\n\nParsing Body Text\n\n")
-//   }
-
-//   finally {
-//     res.send(data)
-//   }
-// })
-// *************************************************************
-
-
-
-
-
-// function getSearchData(category, data, searchTerms, $) {
-//   for (var i = 0; i < searchTerms.length; i++) {
-//     let term = searchTerms[i]
-//     let searchResults = $("body").find(term);
-
-//     if (searchResults.length !== 0) {
-//       searchResults.each(function (index, element) {
-//         data[category].push($(element).html());
-//       });
-//       return data
-//     }
-//   }
-// }
-
-// async function fetchHTML(url) {
-//   const { data } = await axios.get(url)
-//   return cheerio.load(data)
-// }
-
-// app.post('/parse', async function(req, res) {
-//   let url = req.body.url;
-//   console.log("received URL:", url)
-//   const $ = await fetchHTML(url)
-
-//   var data = {"title":[], "ingredients":[], "instructions":[]}
-
-//   var ingredSearchTerms = ["ul[class*='ingredient']", "div[class*='ingredient']", "div[class*='Ingredient'"];
-
-//   var instructSearchTerms = ["ol[class*='step'] > li", "ul[class*='Step'] > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction']", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']"];
-  
-//   data["title"] = [$('h1').text()]
-
-//   getSearchData("ingredients", data, ingredSearchTerms, $)
-//   // getSearchData("instructions", data, instructSearchTerms, $)
-//   res.send(data)
-// })
-
-
-
-
-
-
-
-
-
 
 
 
@@ -528,22 +419,16 @@ app.post("/save", function(req, res){
 
 app.get('/my-saved-recipes', async function(req, res) {
   let username = req.user.username
-  const recipes = await Recipe.find({user: username}).lean()
+  // const recipes = await Recipe.find({user: username}).lean()
+  const recipes = await Recipe.find({user: username}).sort({"title":1}).lean()
   JSON.stringify(recipes)
+  console.log(recipes)
 
   res.render('my-saved-recipes', {recipes})
 });
 
 app.post("/delete-recipe", function(req, res){
 
-  // const recipe = new Recipe({
-  //   user: req.body.user,
-  //   title: req.body.title,
-  //   host: req.body.host, 
-  //   url: req.body.url,
-  //   ingredients: req.body.ingredients,
-  //   instructions: req.body.instructions
-  // })
   const recipeID = req.body.id
   console.log("Received id to delete:", recipeID)
   Recipe.deleteOne({ _id: recipeID }, function (err) {
@@ -565,10 +450,6 @@ app.get('/my-saved-recipes', async function(req, res) {
 
 
 app.post('/email', async function(req, res) {
-  let data = req.body;
-  console.log(data)
-
- 
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -582,7 +463,8 @@ app.post('/email', async function(req, res) {
     to: `${req.body.email}`,
     subject: `${req.body.title} | No Bull Recipes`,
     html: `
-          <h1><a href=${req.body.url}>${req.body.title}</a></h1>
+          <h2><a href=${req.body.url}>${req.body.title}</a></h2>
+          <p>Recipe Notes: ${req.body.recipeNotes}</p>
           <h3>Ingredients:</h3>
           ${req.body.ingredients}
           <h3>Instructions:</h3>
