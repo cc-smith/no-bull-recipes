@@ -1,3 +1,5 @@
+const axios = require("axios")
+const cheerio = require('cheerio')
 /**
  * Searches the body of the HTML for given search terms. Pushes the results to the data object.
  * 
@@ -6,7 +8,7 @@
  * @param {array} searchTerms The terms we will search for within the website
  * @param {obj} $ The parsed HTML data that was retruned by the fetchHTML function
  */
-function getSearchData(category, data, searchTerms, $) {
+function getBodyData(category, data, searchTerms, $) {
     var results = []
     for (var i = 0; i < searchTerms.length; i++) {
       let term = searchTerms[i]
@@ -80,4 +82,27 @@ function getScriptData(result, data) {
   }
 
 
-module.exports = {getSearchData, getScriptData}
+function findResults(result) {
+    for (var i = 0; i < result.length; i++) {
+        var newResult = result[i]
+        if (typeof newResult.recipeIngredient !== 'undefined' && typeof newResult.recipeInstructions !== 'undefined') {
+        return newResult
+        }
+    };
+};
+
+async function fetchHTML(url) {
+    const { data } = await axios.get(url)
+    return cheerio.load(data, {
+      xml: {
+        normalizeWhitespace: true,
+      }
+    });
+  }
+
+var ingredSearchTerms = ["span[class*='ingredient'] > p", "ul[class*='ingredient'] > li", "li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient'] > ul > li" , "div[class*='Ingredient']", "label[class*='ingredient']", "section > ul[class*='list'] > li"];
+
+var instructSearchTerms = ["ol[class*='step'] > li", "ul[class*='Step'] > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction'] > ol > li", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']", "span[class*='direction'] > p", "ul[class*='direction']", "div[class*='direction'] > ol > li","li > p", "div[class*='instruction']", "div > ul > li > p"];
+
+
+module.exports = {getBodyData, getScriptData, findResults, fetchHTML, ingredSearchTerms, instructSearchTerms}
