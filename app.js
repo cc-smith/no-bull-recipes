@@ -36,13 +36,6 @@ client.connect(err => {
 });
 
 
-
-
-// app.use(express.static("public"));
-// app.set('view engine', 'ejs');
-// var cookieParser = require('cookie-parser')
-// app.use(cookieParser())
-
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -110,7 +103,7 @@ app.get("/auth/google/home",
   passport.authenticate('google', { failureRedirect: "/login" }),
   function(req, res) {
     // Successful authentication, redirect to home.
-    res.redirect("/hom");
+    res.redirect("/home");
   });
 
 app.get("/login", function(req, res){
