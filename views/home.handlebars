@@ -140,7 +140,7 @@
   <!-- Similar Recipes Modal -->
   <div id="similarRecipesModal" class="modal fade">
     <div class="modal-dialog modal-confirm" style="width: 80%;" role="document">
-      <div class="modal-content">
+      <div class="modal-content" style="width: 700px;">
         <div class="modal-header flex-column">
           <div class="icon-box">
             <i class="material-icons">&#xe8b6</i>
@@ -174,11 +174,69 @@
       </div>
     </div>
   </div>
-</div>     
+</div>
 
+  <!-- Welcome Modal -->
+  <div id="welcomeModal" class="modal fade">
+    <div class="modal-dialog modal-confirm modal-welcome">
+      <div class="modal-content" style="width: 600px;">
+        <div class="modal-header flex-column">
+          <div class="icon-box">
+            <i class="material-icons">&#xe0f0</i>
+          </div>						
+          <h4 class="modal-title w-100"></h4>	
+                  <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title w-100">Welcome to No Bull Recipes!</h4>	
+        </div>
+        <div class="modal-body">
+          <p>
+            Get the steps and ingredients for your favorite recipes. 
+          </p>
+          <p>
+            No ads.  No lengthy blog posts.  No B.S.
+          </p>
+          <hr style="color:transparent;">
+
+          <div class="container">
+            <div class="row">
+              <div class="col-4 ">
+                <i class="material-icons md-36">&#xe158</i>
+                <p>
+                  Email your recipes
+                </p>
+              </div>
+              <div class="col-4">
+                <i class="material-icons md-36">&#xe161</i>
+                <p>
+                  Save your recipes in your cookbook
+                </p>
+              </div>
+                
+              <div class="col-4 ">
+                <i class="material-icons md-36">&#xe8b6</i>
+                <p>
+                  Find similar recipes
+                </p>
+              </div>
+               
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Got it!</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>     
+
+</html>
 <script src="../js/getSimilarRecipes.js"></script>
 <script src="../js/parse.js"></script>
 <script src="../js/save.js"></script>
 <script src="../js/email.js"></script>
 <script src="../js/myRecipes.js"></script>
 <script src="../js/getSavedRecipe.js"></script>
+<script src="../js/guestSignIn.js"></script>

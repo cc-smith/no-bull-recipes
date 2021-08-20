@@ -29,8 +29,8 @@ body {
 .form-control:focus {
 	background-color:transparent;
 	color:#c5c5c7;
-	border-color: rgb(173, 6, 48);
-	box-shadow: 0px 1px 1px rgba(138, 218, 11, 0.075) inset, 0px 0px 8px rgb(173, 6, 48);
+	border-color: #CC0033;
+	box-shadow: 0px 1px 1px rgba(138, 218, 11, 0.075) inset, 0px 0px 8px #CC0033;
 }
 .card {
 	background-color: transparent;
@@ -46,8 +46,8 @@ body {
   }
 
 .btn-danger {
-	background-color: rgb(173, 6, 48);
-	border-color: rgb(173, 6, 48);
+	background-color: #CC0033;
+	border-color: #CC0033;
 }
 
 
@@ -75,7 +75,7 @@ body {
   
 }
 .title-header a {
-	color: rgb(173, 6, 48);
+	color: #CC0033;
 	text-decoration: none;
 }
 #recipe-title-host {
@@ -91,14 +91,17 @@ span, ol {
 	border-bottom: 1px solid #0091b569;
   }
   
-.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-36 { 
+	font-size: 36px; 
+	color: #CC0033;
+}
 
 
 
 button{
 	border:0;
 	background:none;
-	color: rgb(173, 6, 48);
+	color: #CC0033;
 	size
 	/*And other css to remove the default button property */    
 }
@@ -117,7 +120,6 @@ button{
 
 #btnGetRecipe {
 	margin-left: 10px;
-	/* color: #c5c5c7; */
 	border-radius: 5px;
 	border-color:#0091b569;
 }
@@ -199,7 +201,7 @@ td {
 
 .material-icons.md-24 { 
 	font-size: 24px;
-	color: rgb(173, 6, 48);
+	color: #CC0033;
 	position: relative;
 	left: 85%;
 }
@@ -238,10 +240,9 @@ td {
 /* Table Styling */
 
 
-
 .modal-content {
 	background-color: #1A1A1D;
-	color: white;
+	color: lightgray;
 	border: 1px solid black !important;
 	border-radius: 5px;
   }
@@ -251,7 +252,12 @@ td {
 	color: #c5c5c7;
 }
 
-
+.modal-body p {
+	font-size: 1rem;
+	margin-bottom: 1px;
+	line-height: 1.4rem;
+	color:lightgray;
+}
 .modal-body input  {
 	background-color: transparent;
 	color:#c5c5c7;
@@ -303,10 +309,10 @@ td {
 	border-radius: 50%;
 	z-index: 9;
 	text-align: center;
-	border: 3px solid rgb(173, 6, 48);
+	border: 3px solid #CC0033;
 }
 .modal-confirm .icon-box i {
-	color: rgb(173, 6, 48);
+	color: #CC0033;
 	font-size: 46px;
 	display: inline-block;
 	margin-top: 13px;

@@ -5,6 +5,7 @@ $('#recipeURL').click(function(e) {
 // Your javascript
 $('#btnGetRecipe').click(function(e) {
     e.preventDefault();
+
     // Clear out the previous ingredients/steps
     $( "#ingredients-list" ).empty();
     $( "#instructions-list" ).empty();
