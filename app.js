@@ -25,6 +25,7 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 
+// Initialize mongo connection
 const { MongoClient } = require('mongodb');
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -33,7 +34,6 @@ client.connect(err => {
   // perform actions on the collection object
   client.close();
 });
-
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -51,18 +51,16 @@ app.use(passport.session());
 mongoose.connect(uri, {useNewUrlParser: true});
 mongoose.set("useCreateIndex", true);
 
+// Initialize schema for user database
 const userSchema = new mongoose.Schema ({
   email: String,
   password: String,
   googleId: String,
   secret: String
 });
-
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
-
 const User = new mongoose.model("User", userSchema);
-
 passport.use(User.createStrategy());
 
 passport.serializeUser(function(user, done) {
@@ -74,7 +72,6 @@ passport.deserializeUser(function(id, done) {
     done(err, user);
   });
 });
-
 
 app.get("/", function(req, res){
   res.render("login", {layout: 'main-login'});
@@ -113,19 +110,18 @@ app.get("/submit", function(req, res){
     res.render("submit");
   } else {
     res.redirect("/login", {layout: 'main-login'});
-
   }
 });
 
 app.post("/submit", function(req, res){
   const submittedSecret = req.body.secret;
-
-//Once the user is authenticated and their session gets saved, their user details are saved to req.user.
+  //Once the user is authenticated and their session gets saved, their user details are saved to req.user.
   User.findById(req.user.id, function(err, foundUser){
     if (err) {
       console.log(err);
     } else {
       if (foundUser) {
+        console.log("**********!!!!!!!!!!!!!*************")
         foundUser.secret = submittedSecret;
         foundUser.save(function(){
           res.redirect("/home");
@@ -172,23 +168,29 @@ app.post("/login", function(req, res){
 
 });
 
-// const ContextParser = require('jsonld-context-parser').ContextParser;
-// const myParser = new ContextParser();
-
 /**
  * THe parse route uses 2 strategies to retreive the instructions and ingredients from a recipe website.
  * First, it will try to retrieve the data from a script in the head of the webpage. Script has type='application/ld+json'
  * If this is unsuccessful, it will search within the body of the webpage for the relevant data.
  */
 var parseFunctions = require('./public/js/parsingFunctions.js')
-
 app.post('/parse', async function(req, res) {
-  let url = req.body.url;
+
+  // the data which will be displayed to the user after recipe website has been parsed
   var data = {"title":[], "ingredients":[], "instructions":[]}
+
+  // Pass the url to the parsing function to fetch the HTML 
+  let url = req.body.url;
   var $ = await parseFunctions.fetchHTML(url)
+  
+  // Get the title of the recipe
   data["title"] = [$('h1').text()]
+
+  // Get the script that conatins relevant JSON data 
   var jsonScript = $('script[type="application/ld+json"]')
 
+
+  // Try pulling recipe data from the JSON if possible
   try {
     var jsonScriptParsed = JSON.parse(jsonScript[0].children[0].data)
     if (typeof jsonScriptParsed['@graph'] !== 'undefined' ) { 
@@ -205,18 +207,22 @@ app.post('/parse', async function(req, res) {
       var test = result
     }
 
+    // Relevant data contained within JSON. We will use this strategy for retrieving recipe information
     parseFunctions.getScriptData(test, data)
     console.log("\nParsing Script Text\n")
   }
   
   catch {
+    // Could not pull relevant data from JSON. We must fetch data from the body of the web page.
     parseFunctions.getBodyData("ingredients", data, parseFunctions.ingredSearchTerms, $)
     parseFunctions.getBodyData("instructions", data, parseFunctions.instructSearchTerms, $)
-    console.log("\n\nParsing Body Text\n\n")
+    console.log("\n\nParsing Body Text\n")
 }
   res.send(data)
 });
 
+
+// Set up our schema for recipes that will be added to users' cookbooks
 const db = mongoose.connection
 const recipeSchema = new mongoose.Schema ({
   user: String,
@@ -229,6 +235,7 @@ const recipeSchema = new mongoose.Schema ({
 });
 const Recipe = new mongoose.model("Recipe", recipeSchema);
 
+// Route to save recipes in user's cookbook
 app.post("/save", function(req, res){
   const recipe = new Recipe({
     user: req.body.user,
@@ -243,44 +250,35 @@ app.post("/save", function(req, res){
   recipe.save(function (err, recipe) {
     if (err) return console.error(err);
   });
-  
   res.send(req.body.title)
 });
 
+// Route to access user's cookbook
 app.get('/my-cookbook', async function(req, res) {
   let username = req.user.username
   const recipes = await Recipe.find({user: username}).sort({"title":1}).lean()
   JSON.stringify(recipes)
-  console.log(recipes)
-
   res.render('my-cookbook', {recipes})
 });
 
+// Route to delete recipe from cookbook
 app.post("/delete-recipe", function(req, res){
-
   const recipeID = req.body.id
   console.log("Received id to delete:", recipeID)
   Recipe.deleteOne({ _id: recipeID }, function (err) {
     if (err) return console.error(err);
   });
-  
   res.send(recipeID)
 });
 
-app.get('/my-cookbook', async function(req, res) {
-  let username = req.user.username
-  const recipes = await Recipe.find({user: username}).lean()
-  JSON.stringify(recipes)
 
-  res.render('my-cookbook', {recipes})
-});
-
+// Route to email recipe
 app.post('/email', async function(req, res) {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'NoBullRecipes.mailer@gmail.com',
-      pass: 'nobullshit'
+      pass: process.env.GMAIL_PW
     }
   });
   
@@ -305,7 +303,6 @@ app.post('/email', async function(req, res) {
       console.log('Email sent: ' + info.response);
     }
   });
-
   res.send('Email Sent')
 })
 
