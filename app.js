@@ -113,24 +113,6 @@ app.get("/submit", function(req, res){
   }
 });
 
-app.post("/submit", function(req, res){
-  const submittedSecret = req.body.secret;
-  //Once the user is authenticated and their session gets saved, their user details are saved to req.user.
-  User.findById(req.user.id, function(err, foundUser){
-    if (err) {
-      console.log(err);
-    } else {
-      if (foundUser) {
-        console.log("**********!!!!!!!!!!!!!*************")
-        foundUser.secret = submittedSecret;
-        foundUser.save(function(){
-          res.redirect("/home");
-        });
-      }
-    }
-  });
-});
-
 app.get("/logout", function(req, res){
   req.logout();
   res.redirect("/");
@@ -158,7 +140,7 @@ app.post("/login", function(req, res){
   
   req.login(user, function(err){
     if (err) {
-      console.log(err);
+      console.log( err);
     } else {
       passport.authenticate("local")(req, res, function(){
         res.redirect("/home");
@@ -169,7 +151,7 @@ app.post("/login", function(req, res){
 });
 
 /**
- * THe parse route uses 2 strategies to retreive the instructions and ingredients from a recipe website.
+ * The parse route uses 2 strategies to retreive the instructions and ingredients from a recipe website.
  * First, it will try to retrieve the data from a script in the head of the webpage. Script has type='application/ld+json'
  * If this is unsuccessful, it will search within the body of the webpage for the relevant data.
  */
