@@ -19,16 +19,12 @@ Project Link: [No Bull Recipes](https://no-bull-recipes.herokuapp.com/)
 - [Contact](#contact)
 - [Acknowledgements](#acknowledgements)
 
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-
-<br />
 I built this app to make it easier for home cooks to find and save online recipes.  A key feature of this app is the ability to retrieve recipe steps and instructions without visitng the web page in your browser. No loading ads and images. No scrolling through lengthy blog posts. No BS.  
   
 Other features include:
@@ -47,13 +43,8 @@ Other features include:
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-<!-- ![image](https://user-images.githubusercontent.com/63076215/130512268-f58bc8b7-2514-424d-a72b-b98c83229178.png) -->
-
-
-
 ### Signing In
 There are 2 options for signing in:
-
 <ol>
   <li>Sign in with your own account</li>  
   This requires providing an email address. You will have a personal cookbook in which you can save and delete recipes.
@@ -74,25 +65,25 @@ Simply copy the url of a recipe's web page, paste it in the search bar, and clic
 ### Emailing a Recipe
 Click the "email" icon. A modal will pop up where you can enter an email address. By default the email associated with the account will be displayed.
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/63076215/130517024-26a66011-458c-4568-ab1d-e8cab3a7c614.png" width="500">
+  <img src="https://user-images.githubusercontent.com/63076215/130520921-f47c0f0a-0bad-4ebc-a44e-d306b609f2e0.png" width="500">
 </p>
 
 ### Saving a Recipe
 Click the "save" icon. A modal will pop up where you can write notes that will be saved with the recipe. Any recipes that you save will be added to your cookbook. See below for more information on the cookbook.
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/63076215/130517024-26a66011-458c-4568-ab1d-e8cab3a7c614.png" width="500">
+  <img src="https://user-images.githubusercontent.com/63076215/130521372-b35fd531-8898-43c1-be1f-f08e1e34185a.png" width="500">
 </p>
 
 ### Using the Recipe Recommendation Feature
 Click the "search" icon. The app will search for similar recipes based on the title of the recipe you are currently viewing. Results will be displayed in a pop up modal. You may change the search phrase to tailor your recommendations.
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/63076215/130517552-03618378-3505-4fb9-a16b-9017d09d8dd5.png" width="500">
+  <img src="https://user-images.githubusercontent.com/63076215/130521006-77dc5285-b9a4-4753-b830-06e7e95a4e51.png" width="500">
 </p>
  
 ### My Cookbook
 Click the "My Cookbook" link at the top of the page. You will be redirected to a page with all your saved recipes. Clcking the title of a recipe wll display the recipe along with any notes you may have written. To delete a recipe, simply click the "trashcan" icon and cofnirm the deletion.
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/63076215/130518396-819d4ebd-e798-4b99-a8ea-0ce508f3cc7e.png" width="500">
+  <img src="https://user-images.githubusercontent.com/63076215/130521109-ccf114ee-f0e2-4c59-93b7-1cd7e49501ac.png" width="500">
 </p>
 
 
@@ -117,34 +108,9 @@ Chris Smith
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Img Shields](https://shields.io)
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Pages](https://pages.github.com)
-* [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-* [Sticky Kit](http://leafo.net/sticky-kit)
-* [JVectorMap](http://jvectormap.com)
-* [Font Awesome](https://fontawesome.com)
+* [User Authentication](https://www.udemy.com/course/the-complete-web-development-bootcamp/learn/lecture/12386014#overview)
+* [Readme Template](https://github.com/othneildrew/Best-README-Template)
 
 
 
 
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
