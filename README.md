@@ -1,57 +1,34 @@
 
 
 <!-- PROJECT LOGO -->
-<br />
-<p align="center">
+# No Bull Recipes
+A web app that lets you retrieve only the infomration you need from recipe websites. Save, share, and discover your new favorite recipes.
+Project Link: [No Bull Recipes](https://no-bull-recipes.herokuapp.com/)  
 
-  <a href="https://no-bull-recipes.herokuapp.com/"><h1>No Bull Recipes</h1>
+## Table of Contents
+- [About The Project](#about-the-project)
+  * [Built With](#built-with)
+- [Usage](#usage)
+  * [Signing In](#signing-in)
+  * [Retrieving a Recipe](#retrieving-a-recipe)
+  * [Emailing a Recipe](#emailing-a-recipe)
+  * [Saving a Recipe](#saving-a-recipe)
+  * [Using the Recipe Recommendation Feature](#using-the-recipe-recommendation-feature)
+  * [My Cookbook](#my-cookbook)
+- [License](#license)
+- [Contact](#contact)
+- [Acknowledgements](#acknowledgements)
 
-  <p align="center">
-    <h3>Get steps and ingredients for online recipes without all the BS.</h3>
- 
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
-  </p>
-</p>
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
-
-
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-  </ol>
-</details>
 
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Project Link: [No Bull Recipes](https://no-bull-recipes.herokuapp.com/)  
+
+<br />
 I built this app to make it easier for home cooks to find and save online recipes.  A key feature of this app is the ability to retrieve recipe steps and instructions without visitng the web page in your browser. No loading ads and images. No scrolling through lengthy blog posts. No BS.  
   
 Other features include:
@@ -61,7 +38,6 @@ Other features include:
 * Use the recipe recommendation engine to discover new recipes
 
 ### Built With
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 * [Bootstrap](https://getbootstrap.com)
 * [JQuery](https://jquery.com)
 * [Node.js](https://nodejs.org)
