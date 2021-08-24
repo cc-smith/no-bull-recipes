@@ -100,9 +100,9 @@ async function fetchHTML(url) {
     });
   }
 
-var ingredSearchTerms = ["span[class*='ingredient'] > p", "ul[class*='ingredient'] > li", "li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient'] > ul > li" , "div[class*='Ingredient']", "label[class*='ingredient']", "section > ul[class*='list'] > li"];
+var ingredSearchTerms = ["span[class*='CheckboxLabel']", "span[class*='ingredient'] > p", "ul[class*='ingredient'] > li", "li[itemprop*='ingredient']", "li[itemprop*='Ingredient']", "span[class*='ingredient']", "span[class*='Ingredient']", "li[class*='ingredient']", "li[class*='Ingredient']", "div[class*='ingredient'] > ul > li" ,"div[class*='ingredient']"> "div[class*='ingredient']", "section > ul[class*='list'] > li", "div[data-tasty-recipes-customization*='body'] > ul > li"];
 
-var instructSearchTerms = ["ol[class*='step'] > li", "ul[class*='Step'] > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction'] > ol > li", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']", "span[class*='direction'] > p", "ul[class*='direction']", "div[class*='direction'] > ol > li","li > p", "div[class*='instruction']", "div > ul > li > p"];
+var instructSearchTerms = ["div[data-tasty-recipes-customization*='body'] > ol > li", "li[class*='o-Method']","ol[class*='step'] > li", "ul[class*='Step'] > li", "li[itemprop*='instruction']", "li[itemprop*='Instruction']", "span[class*='instruction']", "span[class*='Instruction']", "li[class*='instruction']", "li[class*='Instruction']", "div[class*='instruction'] > ol > li", "div[class*='Instruction']", "div[class*='preparation']", "div[class*='Preparation']", "div[class*='method']", "div[class*='Method']", "span[class*='direction'] > p", "ul[class*='direction']", "div[class*='direction'] > ol > li","li > p", "div[class*='instruction']", "div > ul > li > p"];
 
 
 module.exports = {getBodyData, getScriptData, findResults, fetchHTML, ingredSearchTerms, instructSearchTerms}
