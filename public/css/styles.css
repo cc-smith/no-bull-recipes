@@ -51,29 +51,26 @@ body {
 }
 
 
-  .form-control {
+.form-control {
 	display: inline-block;
 	background-color: transparent;
 	color:#c5c5c7;
 	border-radius: 5px;
 	border-color:#0091b569;
-	
-  }
-  
-
-
-
-.title-header  {
-  margin: auto;
-  text-align: center;
-  padding-top: 20px;
-  /* text-shadow: 3px 3px #4E4E50; */
-  letter-spacing: 15px;
-  font-size: 75px;
-  font-style: unset;
-  font-weight:800;
-  
 }
+  
+.title-header  {
+	font-family: Arial, Helvetica, sans-serif;
+	margin: auto;
+	text-align: center;
+	padding-top: 20px;
+	text-shadow:  -1px 1px, 1px 1px, 1px 1px #CC0033;
+	letter-spacing: 15px;
+	font-size: 75px;
+	font-style: unset;
+	font-weight:bolder;
+}
+
 .title-header a {
 	color: #CC0033;
 	text-decoration: none;
@@ -97,24 +94,14 @@ span, ol {
 }
 
 
-
 button{
 	border:0;
 	background:none;
 	color: #CC0033;
-	size
-	/*And other css to remove the default button property */    
 }
 .centered {
     padding-top: 200px;
     text-align: center;
-}
-
-.secret-text {
-  text-align: center;
-  font-size: 2rem;
-  color: #fff;
-  background-color: #000;
 }
 
 
@@ -206,39 +193,10 @@ td {
 	left: 85%;
 }
 
-/* #similarRecipesTable, tr {
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-#similarRecipesTable, tr {
-	white-space: nowrap;
-    width: auto;
-	margin-left: auto;
-  	margin-right: auto;
-	border-color: 1px solid black;
-	border-collapse: collapse;
-	border-radius: 5px;
-	text-align: left;
-	font-size: 0.9rem;
-	color:#c5c5c7
-}
-
-#similarRecipesTable tr th {
-	white-space: nowrap;
-    width: auto;
-	margin-left: auto;
-  	margin-right: auto;
-	border-color: transparent;
-	text-align: left;
-	vertical-align: bottom;
-} */
 .btnSimilarRecipe {
 	color:#c5c5c7
 
 }
-
-/* Table Styling */
-
 
 .modal-content {
 	background-color: #1A1A1D;
@@ -324,40 +282,12 @@ td {
 .modal-dialog {
     overflow-y: initial !important
 }
-/* .modal-confirm .btn, .modal-confirm .btn:active {
-	color: #fff;
-	border-radius: 4px;
-	background: #006B38FF;
-	text-decoration: none;
-	transition: all 0.4s;
-	line-height: normal;
-	min-width: 120px;
-	border: none;
-	min-height: 40px;
-	border-radius: 3px;
-	margin: 0 5px;
-} */
 
-
-/* .modal-confirm .btn-secondary {
-	background: #c1c1c1;
-}
-.modal-confirm .btn-secondary:hover, .modal-confirm .btn-secondary:focus {
-	background: #a8a8a8;
-}
-.modal-confirm .btn-danger {
-	background: #f15e5e;
-}
-.modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
-	background: #ee3535; */
 }
 .trigger-btn {
 	display: inline-block;
 	margin: 100px auto;
 }
-
-
-
 
 textarea {
 	resize: none;
