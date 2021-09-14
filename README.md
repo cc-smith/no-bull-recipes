@@ -2,7 +2,7 @@
 
 <!-- PROJECT LOGO -->
 # No Bull Recipes
-A web app that lets you retrieve only the infomration you need from recipe websites. Save, share, and discover your new favorite recipes.  
+A web app that lets you retrieve only the information you need from recipe websites. Save, share, and discover your new favorite recipes.  
 Project Link: [No Bull Recipes](https://no-bull-recipes.herokuapp.com/)  
 
 ## Table of Contents
